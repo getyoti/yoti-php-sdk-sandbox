@@ -2,7 +2,7 @@
 
 This repo contains the tools you need to test your Yoti integration.
 
-## Enabling the SDK
+## Installing the Sandbox
 
 Add the Yoti SDK dependency:
 
@@ -12,7 +12,7 @@ $ composer require yoti/yoti-php-sdk-sandbox
 
 ## Client Initialisation
 
-The YotiClient is the SDK entry point. To initialise it you need to include the following snippet inside your endpoint initialisation section:
+The SandboxClient is the sandbox entry point. To initialise it you need to include the following snippet inside your endpoint initialisation section:
 
 ```php
 <?php
