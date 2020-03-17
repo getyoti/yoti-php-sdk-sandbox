@@ -8,11 +8,11 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yoti\Http\Payload;
 use Yoti\Sandbox\Profile\Request\TokenRequest;
-use Yoti\Sandbox\SandboxClient;
+use Yoti\Sandbox\Profile\SandboxClient;
 use Yoti\Util\Config;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\SandboxClient
+ * @coversDefaultClass \Yoti\Sandbox\Profile\SandboxClient
  */
 class SandboxClientTest extends TestCase
 {
