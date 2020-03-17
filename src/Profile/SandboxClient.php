@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox;
+namespace Yoti\Sandbox\Profile;
 
 use Yoti\Sandbox\Profile\Request\TokenRequest;
 use Yoti\Sandbox\Profile\Service as ProfileService;
