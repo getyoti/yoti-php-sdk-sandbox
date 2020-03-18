@@ -27,7 +27,7 @@ use Yoti\Sandbox\Profile\Request\TokenRequestBuilder;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 
 try {
-    $client = new SandboxClient('CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
+    $sandboxClient = new SandboxClient('CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
 
     $ageVerification = new SandboxAgeVerification(
         new \DateTime('1980-01-01'),
@@ -53,7 +53,11 @@ try {
         ->setDocumentDetailsWithString('PASSPORT USA 1234abc')
         ->build();
 
-    $token = $client->setupSharingProfile($tokenRequest)->getToken();
+    $token = $sandboxClient->setupSharingProfile($tokenRequest)->getToken();
+
+    $client = new \Yoti\YotiClient('CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
+    $activityDetails = $client->getActivityDetails($token);
+
 } catch(Exception $e) {
     // Handle unhappy path
 }
