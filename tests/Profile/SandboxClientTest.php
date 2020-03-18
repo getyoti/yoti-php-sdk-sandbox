@@ -16,19 +16,19 @@ use Yoti\Util\Config;
  */
 class SandboxClientTest extends TestCase
 {
+    private const SOME_TOKEN = 'some-token';
+
     /**
      * @covers ::setupSharingProfile
      * @covers ::__construct
      */
     public function testSetupSharingProfile()
     {
-        $expectedConnectToken = file_get_contents(TestData::YOTI_CONNECT_TOKEN);
-
         $mockResponse = $this->createMock(ResponseInterface::class);
         $mockResponse
             ->method('getBody')
             ->willReturn(json_encode([
-                'token' => $expectedConnectToken
+                'token' => self::SOME_TOKEN
             ]));
         $mockResponse
             ->method('getStatusCode')
@@ -52,6 +52,6 @@ class SandboxClientTest extends TestCase
 
         $token = $sandboxClient->setupSharingProfile($mockTokenRequest);
 
-        $this->assertEquals($expectedConnectToken, $token);
+        $this->assertEquals(self::SOME_TOKEN, $token);
     }
 }
