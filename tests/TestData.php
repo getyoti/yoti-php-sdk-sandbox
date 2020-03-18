@@ -8,5 +8,4 @@ class TestData
 {
     public const SDK_ID = '990a3996-5762-4e8a-aa64-cb406fdb0e68';
     public const PEM_FILE = __DIR__ . '/sample-data/test.pem';
-    public const YOTI_CONNECT_TOKEN = __DIR__ . '/sample-data/connect-token.txt';
 }
