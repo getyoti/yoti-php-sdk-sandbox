@@ -29,9 +29,9 @@ use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 try {
     $sandboxClient = new SandboxClient('CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
 
-    $ageVerification = new SandboxAgeVerification(
-        new \DateTime('1980-01-01'),
-        'age_under:18'
+    $ageVerification = SandboxAgeVerification::forAgeOver(
+        18,
+        new \DateTime('1980-01-01')
     );
 
     $tokenRequest = (new TokenRequestBuilder())

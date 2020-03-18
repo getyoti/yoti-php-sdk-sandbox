@@ -12,28 +12,38 @@ class SandboxAgeVerification extends SandboxAttribute
     private const AGE_UNDER_FORMAT = 'age_under:%d';
 
     /**
-     * @param \DateTime $dateObj
+     * @param \DateTime $date
      * @param string $derivation
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      */
-    public function __construct(\DateTime $dateObj, string $derivation = '', array $anchors = [])
+    final public function __construct(\DateTime $date, string $derivation = '', array $anchors = [])
     {
         parent::__construct(
             UserProfile::ATTR_DATE_OF_BIRTH,
-            $dateObj->format('Y-m-d'),
+            $date->format('Y-m-d'),
             $derivation,
             true,
             $anchors
         );
     }
 
-    public function setAgeOver(int $age): void
+    /**
+     * @param int $age
+     * @param \DateTime $date
+     * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
+     */
+    public static function forAgeOver(int $age, \DateTime $date, array $anchors = []): self
     {
-        $this->derivation = sprintf(self::AGE_OVER_FORMAT, $age);
+        return new static($date, sprintf(self::AGE_OVER_FORMAT, $age), $anchors);
     }
 
-    public function setAgeUnder(int $age): void
+    /**
+     * @param int $age
+     * @param \DateTime $date
+     * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
+     */
+    public static function forAgeUnder(int $age, \DateTime $date, array $anchors = []): self
     {
-        $this->derivation = sprintf(self::AGE_UNDER_FORMAT, $age);
+        return new static($date, sprintf(self::AGE_UNDER_FORMAT, $age), $anchors);
     }
 }

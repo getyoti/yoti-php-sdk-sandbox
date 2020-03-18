@@ -49,12 +49,15 @@ class SandboxAgeVerificationTest extends TestCase
     }
 
     /**
-     * @covers ::setAgeOver
+     * @covers ::forAgeOver
      * @covers ::__construct
      */
-    public function testGetAgeOver()
+    public function testForAgeOver()
     {
-        $this->ageVerification->setAgeOver(20);
+        $ageOverVerification = SandboxAgeVerification::forAgeOver(
+            20,
+            new \DateTime(self::SOME_TIMESTAMP_DATE_STRING)
+        );
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
@@ -64,17 +67,20 @@ class SandboxAgeVerificationTest extends TestCase
                 'optional' => true,
                 'anchors' => [],
             ]),
-            json_encode($this->ageVerification)
+            json_encode($ageOverVerification)
         );
     }
 
     /**
-     * @covers ::setAgeUnder
+     * @covers ::forAgeUnder
      * @covers ::__construct
      */
-    public function testAgeUnder()
+    public function testForAgeUnder()
     {
-        $this->ageVerification->setAgeUnder(30);
+        $ageUnderVerification = SandboxAgeVerification::forAgeUnder(
+            30,
+            new \DateTime(self::SOME_TIMESTAMP_DATE_STRING)
+        );
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
@@ -84,7 +90,7 @@ class SandboxAgeVerificationTest extends TestCase
                 'optional' => true,
                 'anchors' => [],
             ]),
-            json_encode($this->ageVerification)
+            json_encode($ageUnderVerification)
         );
     }
 }
