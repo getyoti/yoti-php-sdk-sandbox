@@ -53,7 +53,7 @@ try {
         ->setDocumentDetailsWithString('PASSPORT USA 1234abc')
         ->build();
 
-    $token = $sandboxClient->setupSharingProfile($tokenRequest)->getToken();
+    $token = $sandboxClient->setupSharingProfile($tokenRequest);
 
     $client = new \Yoti\YotiClient('CLIENT_SDK_ID', '/path/to/your-pem-file.pem', [
         'api.url' => 'https://api.yoti.com/sandbox/v1'
