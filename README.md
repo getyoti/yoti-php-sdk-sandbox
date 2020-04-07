@@ -12,7 +12,7 @@ $ composer require yoti/yoti-php-sdk-sandbox
 
 ## Configuration
 
-* `CLIENT_SDK_ID` is the Sandbox SDK identifier generated from the Sandbox section on Yoti Hub.
+* `SANDBOX_CLIENT_SDK_ID` is the Sandbox SDK identifier generated from the Sandbox section on Yoti Hub.
 
 * `/path/to/your-pem-file.pem` is the path to the Sandbox PEM file. It can be downloaded from the Sandbox section on Yoti Hub.
 
@@ -22,9 +22,9 @@ Please do not open the PEM file, as this might corrupt the key, and you will nee
 use Yoti\Sandbox\Profile\SandboxClient;
 use Yoti\YotiClient;
 
-$sandboxClient = new SandboxClient('CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
+$sandboxClient = new SandboxClient('SANDBOX_CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
 
-$yotiClient = new YotiClient('CLIENT_SDK_ID', '/path/to/your-pem-file.pem', [
+$yotiClient = new YotiClient('SANDBOX_CLIENT_SDK_ID', '/path/to/your-pem-file.pem', [
     'api.url' => 'https://api.yoti.com/sandbox/v1'
 ]);
 ```
