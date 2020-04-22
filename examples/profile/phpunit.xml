@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit colors="true"
+         bootstrap="bootstrap.php">
+    <testsuites>
+        <testsuite name="Yoti Profile Sandbox Example">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

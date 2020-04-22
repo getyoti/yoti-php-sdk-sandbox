@@ -13,4 +13,6 @@
   </rule>
   <file>src</file>
   <file>tests</file>
+  <file>examples</file>
+  <exclude-pattern>/vendor/</exclude-pattern>
 </ruleset>
