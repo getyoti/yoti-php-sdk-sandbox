@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\Profile\Request\ExtraData;
 
+use Yoti\Util\Validation;
+
 class SandboxExtraData implements \JsonSerializable
 {
     /**
@@ -16,6 +18,7 @@ class SandboxExtraData implements \JsonSerializable
      */
     public function __construct(array $dataEntries)
     {
+        Validation::isArrayOfType($dataEntries, [SandboxDataEntry::class], 'dataEntries');
         $this->dataEntries = $dataEntries;
     }
 

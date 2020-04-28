@@ -7,6 +7,8 @@ namespace Yoti\Sandbox\Examples\Profile\Test;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor;
+use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraDataBuilder;
+use Yoti\Sandbox\Profile\Request\ExtraData\ThirdParty\SandboxAttributeIssuanceDetailsBuilder;
 use Yoti\Sandbox\Profile\Request\TokenRequestBuilder;
 use Yoti\Sandbox\Profile\SandboxClient;
 use Yoti\YotiClient;
@@ -54,6 +56,16 @@ class ProfileTest extends PHPUnitTestCase
             new \DateTime('1980-01-01')
         );
 
+        $extraData = (new SandboxExtraDataBuilder())
+            ->withDataEntry(
+                (new SandboxAttributeIssuanceDetailsBuilder())
+                    ->withDefinition('some-definition')
+                    ->withExpiryDate(new \DateTime('2020-01-01T00:00:00Z'))
+                    ->withIssuanceToken('some-token')
+                    ->build()
+            )
+            ->build();
+
         $tokenRequest = (new TokenRequestBuilder())
             ->setRememberMeId('Some Remember Me ID')
             ->setGivenNames('Some Given Names', $anchors)
@@ -71,6 +83,7 @@ class ProfileTest extends PHPUnitTestCase
                 'building_number' => 1,
                 'address_line1' => 'Some Address',
             ]))
+            ->setExtraData($extraData)
             ->build();
 
         $token = $this->sandboxClient->setupSharingProfile($tokenRequest);
@@ -104,5 +117,16 @@ class ProfileTest extends PHPUnitTestCase
 
         $this->assertEquals('PASSPORT', $profile->getGivenNames()->getSources()[0]->getValue());
         $this->assertEquals('YOTI_ADMIN', $profile->getGivenNames()->getVerifiers()[0]->getValue());
+
+        $attributeIssuanceDetails = $activityDetails->getExtraData()->getAttributeIssuanceDetails();
+        $this->assertEquals(base64_encode('some-token'), $attributeIssuanceDetails->getToken());
+        $this->assertEquals(
+            '2020-01-01T00:00:00+00:00',
+            $attributeIssuanceDetails->getExpiryDate()->format(DATE_RFC3339)
+        );
+        $this->assertEquals(
+            'some-definition',
+            $attributeIssuanceDetails->getIssuingAttributes()[0]->getName()
+        );
     }
 }
