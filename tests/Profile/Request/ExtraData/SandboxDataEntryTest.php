@@ -35,7 +35,7 @@ class SandboxDataEntryTest extends TestCase
                 'type' => self::SOME_TYPE,
                 'value' => $valueMock,
             ]),
-            json_encode($sandboxDataEntry),
+            json_encode($sandboxDataEntry)
         );
     }
 }
