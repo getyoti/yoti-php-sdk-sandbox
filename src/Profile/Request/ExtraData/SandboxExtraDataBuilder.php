@@ -16,7 +16,7 @@ class SandboxExtraDataBuilder
      *
      * @return $this
      */
-    public function withDataEntry($dataEntry): self
+    public function withDataEntry(SandboxDataEntry $dataEntry): self
     {
         $this->dataEntries[] = $dataEntry;
         return $this;
