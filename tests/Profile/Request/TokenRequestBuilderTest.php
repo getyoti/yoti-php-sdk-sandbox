@@ -7,6 +7,7 @@ namespace Yoti\Sandbox\Test\Profile\Request;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentDetails;
+use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraData;
 use Yoti\Sandbox\Profile\Request\TokenRequest;
 use Yoti\Sandbox\Profile\Request\TokenRequestBuilder;
 use Yoti\Sandbox\Test\TestCase;
@@ -91,7 +92,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => $name,
@@ -217,7 +217,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => $name,
@@ -263,7 +262,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'date_of_birth',
@@ -287,7 +285,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'selfie',
@@ -368,7 +365,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'document_details',
@@ -452,7 +448,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'document_details',
@@ -512,8 +507,26 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [$someAgeVerification]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @covers ::setExtraData
+     */
+    public function testSetExtraData()
+    {
+        $someExtraData  = $this->createMock(SandboxExtraData::class);
+        $someExtraData->method('jsonSerialize')->willReturn((object) ['some' => 'extra-data']);
+
+        $tokenRequest = $this->requestBuilder->setExtraData($someExtraData)->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'profile_attributes' => [],
+                'extra_data' => $someExtraData,
             ]),
             json_encode($tokenRequest)
         );

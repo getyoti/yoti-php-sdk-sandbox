@@ -8,6 +8,7 @@ use Yoti\Profile\UserProfile;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentDetails;
+use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraData;
 
 class TokenRequestBuilder
 {
@@ -20,6 +21,11 @@ class TokenRequestBuilder
      * @var SandboxAttribute[]
      */
     private $sandboxAttributes = [];
+
+    /**
+     * @var SandboxExtraData|null
+     */
+    private $extraData;
 
     /**
      * @param string $value
@@ -264,6 +270,17 @@ class TokenRequestBuilder
     }
 
     /**
+     * @param SandboxExtraData $extraData
+     *
+     * @return self
+     */
+    public function setExtraData(SandboxExtraData $extraData): self
+    {
+        $this->extraData = $extraData;
+        return $this;
+    }
+
+    /**
      * @param string $name
      * @param string $value
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
@@ -314,6 +331,6 @@ class TokenRequestBuilder
      */
     public function build(): TokenRequest
     {
-        return new TokenRequest($this->rememberMeId, $this->sandboxAttributes);
+        return new TokenRequest($this->rememberMeId, $this->sandboxAttributes, $this->extraData);
     }
 }
