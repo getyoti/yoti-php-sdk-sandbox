@@ -53,7 +53,7 @@ class SandboxAttributeIssuanceDetailsBuilderTest extends TestCase
                     ],
                 ],
             ]),
-            json_encode($sandboxAttributeIssuanceDetails),
+            json_encode($sandboxAttributeIssuanceDetails)
         );
     }
 }

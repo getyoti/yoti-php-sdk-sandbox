@@ -34,7 +34,7 @@ class SandboxExtraDataBuilderTest extends TestCase
             json_encode([
                 'data_entry' => [$dataEntryMock]
             ]),
-            json_encode($extraData),
+            json_encode($extraData)
         );
     }
 }
