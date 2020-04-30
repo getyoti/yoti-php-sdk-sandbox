@@ -22,7 +22,6 @@ class SandboxAgeVerification extends SandboxAttribute
             UserProfile::ATTR_DATE_OF_BIRTH,
             $date->format('Y-m-d'),
             $derivation,
-            true,
             $anchors
         );
     }

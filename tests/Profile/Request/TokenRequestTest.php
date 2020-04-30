@@ -19,7 +19,6 @@ class TokenRequestTest extends TestCase
         'name' => 'some-name',
         'value' => 'some-value',
         'derivation' => '',
-        'optional' => false,
         'anchors' => [],
     ];
 

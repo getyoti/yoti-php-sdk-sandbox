@@ -32,273 +32,231 @@ class TokenRequestBuilder
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setFullName(string $value, bool $optional = false, array $anchors = []): self
+    public function setFullName(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_FULL_NAME,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setFamilyName(string $value, bool $optional = false, array $anchors = []): self
+    public function setFamilyName(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_FAMILY_NAME,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setGivenNames(string $value, bool $optional = false, array $anchors = []): self
+    public function setGivenNames(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_GIVEN_NAMES,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param \DateTime $dateTime
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setDateOfBirth(\DateTime $dateTime, bool $optional = false, array $anchors = []): self
+    public function setDateOfBirth(\DateTime $dateTime, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_DATE_OF_BIRTH,
             $dateTime->format('Y-m-d'),
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setGender(string $value, bool $optional = false, array $anchors = []): self
+    public function setGender(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_GENDER,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setNationality(string $value, bool $optional = false, array $anchors = []): self
+    public function setNationality(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_NATIONALITY,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setPhoneNumber(string $value, bool $optional = false, array $anchors = []): self
+    public function setPhoneNumber(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_PHONE_NUMBER,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setSelfie(string $value, bool $optional = false, array $anchors = []): self
+    public function setSelfie(string $value, $anchors = []): self
     {
-        $base64Selfie = base64_encode($value);
-        return $this->setBase64Selfie($base64Selfie, $optional, $anchors);
+        return $this->setBase64Selfie(
+            base64_encode($value),
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setBase64Selfie(string $value, bool $optional = false, array $anchors = []): self
+    public function setBase64Selfie(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_SELFIE,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setEmailAddress(string $value, bool $optional = false, array $anchors = []): self
+    public function setEmailAddress(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_EMAIL_ADDRESS,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setPostalAddress(string $value, bool $optional = false, array $anchors = []): self
+    public function setPostalAddress(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_POSTAL_ADDRESS,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setStructuredPostalAddress(string $value, bool $optional = false, array $anchors = []): self
+    public function setStructuredPostalAddress(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_STRUCTURED_POSTAL_ADDRESS,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentDetails $documentDetails
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
     public function setDocumentDetails(
         SandboxDocumentDetails $documentDetails,
-        bool $optional = true,
-        array $anchors = []
+        $anchors = []
     ): self {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_DOCUMENT_DETAILS,
             $documentDetails->getValue(),
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
     /**
      * @param string $value
-     * @param bool $optional
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
      * @return $this
      */
-    public function setDocumentDetailsWithString(string $value, bool $optional = true, array $anchors = []): self
+    public function setDocumentDetailsWithString(string $value, $anchors = []): self
     {
-        $this->addAttribute($this->createAttribute(
+        return $this->createAttribute(
             UserProfile::ATTR_DOCUMENT_DETAILS,
             $value,
-            '',
-            $optional,
-            $anchors
-        ));
-        return $this;
+            $this->getAnchors($anchors, func_get_args(), __METHOD__)
+        );
     }
 
+    /**
+     * @param SandboxAgeVerification $ageVerification
+     *
+     * @return $this
+     */
     public function setAgeVerification(SandboxAgeVerification $ageVerification): self
     {
         $this->addAttribute($ageVerification);
         return $this;
     }
 
+    /**
+     * @param SandboxAttribute $attribute
+     *
+     * @return $this
+     */
     public function addAttribute(SandboxAttribute $attribute): self
     {
         $this->sandboxAttributes[] = $attribute;
@@ -308,22 +266,47 @@ class TokenRequestBuilder
     /**
      * @param string $name
      * @param string $value
-     * @param string $derivation
-     *  Empty value means there is no derivation for this attribute
-     * @param bool $optional
-     *  false value means this attribute is required
      * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
      *
-     * @return SandboxAttribute
+     * @return $this
      */
     private function createAttribute(
         string $name,
         string $value,
-        string $derivation,
-        bool $optional,
         array $anchors
-    ): SandboxAttribute {
-        return new SandboxAttribute($name, $value, $derivation, $optional, $anchors);
+    ): self {
+        return $this->addAttribute(new SandboxAttribute($name, $value, '', $anchors));
+    }
+
+    /**
+     * Get the anchors from the provided arguments.
+     *
+     * This provides backward compatibility for implementations providing
+     * the optional parameter, which has now been removed.
+     *
+     * @param mixed $anchors
+     *   The parameter expected to be an array of anchors.
+     * @param array<mixed> $args
+     *   The builder method args.
+     * @param string $method
+     *   The builder method being called.
+     *
+     * @return \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[]
+     */
+    private function getAnchors($anchors, array $args, string $method): array
+    {
+        if (is_array($anchors)) {
+            return $anchors;
+        }
+
+        if (is_bool($args[1])) {
+            @trigger_error(
+                "Boolean argument 2 passed to {$method} is deprecated in 1.1.0 and will be removed in 2.0.0",
+                E_USER_DEPRECATED
+            );
+        }
+
+        return $args[2] ?? [];
     }
 
     /**

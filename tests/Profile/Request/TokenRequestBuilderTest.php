@@ -19,21 +19,25 @@ class TokenRequestBuilderTest extends TestCase
     private const SOME_REMEMBER_ME_ID = 'some_remember_me_id';
     private const SOME_NAME = 'some name';
     private const SOME_STRING_VALUE = 'some string';
-    private const SOME_ANCHOR_JSON_DATA = [
-        'type' => 'some type',
-        'sub_type' => 'some sub type',
-        'value' => 'some anchor value',
-        'timestamp' => 1575998454,
-    ];
 
     /**
-     * @var \Yoti\Sandbox\Profile\RequestBuilders
+     * @var TokenRequestBuilder
      */
     private $requestBuilder;
+
+    /**
+     * @var SandboxAnchor
+     */
+    private $mockAnchor;
 
     public function setup(): void
     {
         $this->requestBuilder = new TokenRequestBuilder();
+
+        $this->mockAnchor = $this->createMock(SandboxAnchor::class);
+        $this->mockAnchor
+            ->method('jsonSerialize')
+            ->willReturn(['some' => 'anchor']);
     }
 
     /**
@@ -76,6 +80,7 @@ class TokenRequestBuilderTest extends TestCase
      * @covers ::setStructuredPostalAddress
      * @covers ::createAttribute
      * @covers ::addAttribute
+     * @covers ::getAnchors
      *
      * @dataProvider stringAttributeSettersDataProvider
      */
@@ -92,7 +97,50 @@ class TokenRequestBuilderTest extends TestCase
                         'name' => $name,
                         'value' => self::SOME_STRING_VALUE,
                         'derivation' => '',
-                        'optional' => false,
+                        'anchors' => [],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @group legacy
+     *
+     * phpcs:disable
+     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::%s is deprecated in 1.1.0 and will be removed in 2.0.0
+     * phpcs:enable
+     *
+     * @covers ::setFullName
+     * @covers ::setFamilyName
+     * @covers ::setGivenNames
+     * @covers ::setGender
+     * @covers ::setNationality
+     * @covers ::setPhoneNumber
+     * @covers ::setBase64Selfie
+     * @covers ::setEmailAddress
+     * @covers ::setPostalAddress
+     * @covers ::setStructuredPostalAddress
+     * @covers ::createAttribute
+     * @covers ::addAttribute
+     * @covers ::getAnchors
+     *
+     * @dataProvider stringAttributeSettersDataProvider
+     */
+    public function testStringAttributeSettersWithOptional($setterMethod, $name)
+    {
+        $this->requestBuilder->{$setterMethod}(self::SOME_STRING_VALUE, true);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'remember_me_id' => null,
+                'profile_attributes' => [
+                    [
+                        'name' => $name,
+                        'value' => self::SOME_STRING_VALUE,
+                        'derivation' => '',
                         'anchors' => [],
                     ]
                 ]
@@ -114,15 +162,13 @@ class TokenRequestBuilderTest extends TestCase
      * @covers ::setStructuredPostalAddress
      * @covers ::createAttribute
      * @covers ::addAttribute
+     * @covers ::getAnchors
      *
      * @dataProvider stringAttributeSettersDataProvider
      */
     public function testStringAttributeSettersWithAnchor($setterMethod, $name)
     {
-        $someAnchor = $this->createMock(SandboxAnchor::class);
-        $someAnchor->method('jsonSerialize')->willReturn(self::SOME_ANCHOR_JSON_DATA);
-
-        $this->requestBuilder->{$setterMethod}(self::SOME_STRING_VALUE, true, [ $someAnchor ]);
+        $this->requestBuilder->{$setterMethod}(self::SOME_STRING_VALUE, [$this->mockAnchor]);
         $tokenRequest = $this->requestBuilder->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -133,8 +179,51 @@ class TokenRequestBuilderTest extends TestCase
                         'name' => $name,
                         'value' => self::SOME_STRING_VALUE,
                         'derivation' => '',
-                        'optional' => true,
-                        'anchors' => [ self::SOME_ANCHOR_JSON_DATA ],
+                        'anchors' => [$this->mockAnchor],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @group legacy
+     *
+     * phpcs:disable
+     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::%s is deprecated in 1.1.0 and will be removed in 2.0.0
+     * phpcs:enable
+     *
+     * @covers ::setFullName
+     * @covers ::setFamilyName
+     * @covers ::setGivenNames
+     * @covers ::setGender
+     * @covers ::setNationality
+     * @covers ::setPhoneNumber
+     * @covers ::setBase64Selfie
+     * @covers ::setEmailAddress
+     * @covers ::setPostalAddress
+     * @covers ::setStructuredPostalAddress
+     * @covers ::createAttribute
+     * @covers ::addAttribute
+     * @covers ::getAnchors
+     *
+     * @dataProvider stringAttributeSettersDataProvider
+     */
+    public function testStringAttributeSettersWithOptionalAndAnchor($setterMethod, $name)
+    {
+        $this->requestBuilder->{$setterMethod}(self::SOME_STRING_VALUE, true, [$this->mockAnchor]);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'remember_me_id' => null,
+                'profile_attributes' => [
+                    [
+                        'name' => $name,
+                        'value' => self::SOME_STRING_VALUE,
+                        'derivation' => '',
+                        'anchors' => [$this->mockAnchor],
                     ]
                 ]
             ]),
@@ -180,7 +269,6 @@ class TokenRequestBuilderTest extends TestCase
                         'name' => 'date_of_birth',
                         'value' => $someDOB->format('Y-m-d'),
                         'derivation' => '',
-                        'optional' => false,
                         'anchors' => [],
                     ]
                 ]
@@ -205,8 +293,61 @@ class TokenRequestBuilderTest extends TestCase
                         'name' => 'selfie',
                         'value' => base64_encode(self::SOME_STRING_VALUE),
                         'derivation' => '',
-                        'optional' => false,
                         'anchors' => [],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @covers ::setSelfie
+     */
+    public function testSetSelfieWithAnchor()
+    {
+        $this->requestBuilder->setSelfie(self::SOME_STRING_VALUE, [$this->mockAnchor]);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'remember_me_id' => null,
+                'profile_attributes' => [
+                    [
+                        'name' => 'selfie',
+                        'value' => base64_encode(self::SOME_STRING_VALUE),
+                        'derivation' => '',
+                        'anchors' => [$this->mockAnchor],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @group legacy
+     *
+     * phpcs:disable
+     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::setSelfie is deprecated in 1.1.0 and will be removed in 2.0.0
+     * phpcs:enable
+     *
+     * @covers ::setSelfie
+     */
+    public function testSetSelfieWithOptionalAndAnchor()
+    {
+        $this->requestBuilder->setSelfie(self::SOME_STRING_VALUE, true, [$this->mockAnchor]);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'remember_me_id' => null,
+                'profile_attributes' => [
+                    [
+                        'name' => 'selfie',
+                        'value' => base64_encode(self::SOME_STRING_VALUE),
+                        'derivation' => '',
+                        'anchors' => [$this->mockAnchor],
                     ]
                 ]
             ]),
@@ -233,7 +374,6 @@ class TokenRequestBuilderTest extends TestCase
                         'name' => 'document_details',
                         'value' => self::SOME_STRING_VALUE,
                         'derivation' => '',
-                        'optional' => true,
                         'anchors' => [],
                     ]
                 ]
@@ -242,13 +382,15 @@ class TokenRequestBuilderTest extends TestCase
         );
     }
 
-
     /**
-     * @covers ::setDocumentDetailsWithString
+     * @covers ::setDocumentDetails
      */
-    public function testSetDocumentDetailsWithString()
+    public function testSetDocumentDetailsWithAnchor()
     {
-        $this->requestBuilder->setDocumentDetailsWithString(self::SOME_STRING_VALUE);
+        $someDocumentDetails  = $this->createMock(SandboxDocumentDetails::class);
+        $someDocumentDetails->method('getValue')->willReturn(self::SOME_STRING_VALUE);
+
+        $this->requestBuilder->setDocumentDetails($someDocumentDetails, [$this->mockAnchor]);
         $tokenRequest = $this->requestBuilder->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -259,8 +401,94 @@ class TokenRequestBuilderTest extends TestCase
                         'name' => 'document_details',
                         'value' => self::SOME_STRING_VALUE,
                         'derivation' => '',
-                        'optional' => true,
-                        'anchors' => [],
+                        'anchors' => [$this->mockAnchor],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @group legacy
+     *
+     * phpcs:disable
+     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::setDocumentDetails is deprecated in 1.1.0 and will be removed in 2.0.0
+     * phpcs:enable
+     *
+     * @covers ::setDocumentDetails
+     */
+    public function testSetDocumentDetailsWithOptionalAndAnchor()
+    {
+        $someDocumentDetails  = $this->createMock(SandboxDocumentDetails::class);
+        $someDocumentDetails->method('getValue')->willReturn(self::SOME_STRING_VALUE);
+
+        $this->requestBuilder->setDocumentDetails($someDocumentDetails, true, [$this->mockAnchor]);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'remember_me_id' => null,
+                'profile_attributes' => [
+                    [
+                        'name' => 'document_details',
+                        'value' => self::SOME_STRING_VALUE,
+                        'derivation' => '',
+                        'anchors' => [$this->mockAnchor],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @covers ::setDocumentDetailsWithString
+     */
+    public function testSetDocumentDetailsWithStringAndAnchors()
+    {
+        $this->requestBuilder->setDocumentDetailsWithString(self::SOME_STRING_VALUE, [$this->mockAnchor]);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'remember_me_id' => null,
+                'profile_attributes' => [
+                    [
+                        'name' => 'document_details',
+                        'value' => self::SOME_STRING_VALUE,
+                        'derivation' => '',
+                        'anchors' => [$this->mockAnchor],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @group legacy
+     *
+     * phpcs:disable
+     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::setDocumentDetailsWithString is deprecated in 1.1.0 and will be removed in 2.0.0
+     * phpcs:enable
+     *
+     * @covers ::setDocumentDetailsWithString
+     */
+    public function testSetDocumentDetailsWithStringAndOptionalAndAnchors()
+    {
+        $this->requestBuilder->setDocumentDetailsWithString(self::SOME_STRING_VALUE, true, [$this->mockAnchor]);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'remember_me_id' => null,
+                'profile_attributes' => [
+                    [
+                        'name' => 'document_details',
+                        'value' => self::SOME_STRING_VALUE,
+                        'derivation' => '',
+                        'anchors' => [$this->mockAnchor],
                     ]
                 ]
             ]),
@@ -285,12 +513,7 @@ class TokenRequestBuilderTest extends TestCase
         $this->assertJsonStringEqualsJsonString(
             json_encode([
                 'remember_me_id' => null,
-                'profile_attributes' => [
-                    [
-                        'name' => self::SOME_NAME,
-                        'value' => self::SOME_STRING_VALUE,
-                    ]
-                ]
+                'profile_attributes' => [$someAgeVerification]
             ]),
             json_encode($tokenRequest)
         );
