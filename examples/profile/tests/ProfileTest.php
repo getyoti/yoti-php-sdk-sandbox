@@ -56,11 +56,12 @@ class ProfileTest extends PHPUnitTestCase
             new \DateTime('1980-01-01')
         );
 
+        $expiryDate = new \DateTime('+1 day');
         $extraData = (new SandboxExtraDataBuilder())
             ->withDataEntry(
                 (new SandboxAttributeIssuanceDetailsBuilder())
                     ->withDefinition('some-definition')
-                    ->withExpiryDate(new \DateTime('2020-01-01T00:00:00Z'))
+                    ->withExpiryDate($expiryDate)
                     ->withIssuanceToken('some-token')
                     ->build()
             )
@@ -121,7 +122,7 @@ class ProfileTest extends PHPUnitTestCase
         $attributeIssuanceDetails = $activityDetails->getExtraData()->getAttributeIssuanceDetails();
         $this->assertEquals(base64_encode('some-token'), $attributeIssuanceDetails->getToken());
         $this->assertEquals(
-            '2020-01-01T00:00:00+00:00',
+            $expiryDate->format(DATE_RFC3339),
             $attributeIssuanceDetails->getExpiryDate()->format(DATE_RFC3339)
         );
         $this->assertEquals(
