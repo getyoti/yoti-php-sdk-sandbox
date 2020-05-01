@@ -10,7 +10,7 @@ class SandboxDocumentAuthenticityCheckBuilder extends SandboxDocumentCheckBuilde
     /**
      * @return SandboxDocumentAuthenticityCheck
      */
-    public function build(): SandboxDocumentAuthenticityCheck
+    public function build(): SandboxCheck
     {
         $result = new SandboxCheckResult($this->buildReport());
         return new SandboxDocumentAuthenticityCheck($result, $this->documentFilter);

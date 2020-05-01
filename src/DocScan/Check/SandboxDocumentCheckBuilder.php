@@ -23,9 +23,4 @@ abstract class SandboxDocumentCheckBuilder extends SandboxCheckBuilder
         $this->documentFilter = $documentFilter;
         return $this;
     }
-
-    /**
-     * @return SandboxDocumentCheck
-     */
-    abstract public function build(): SandboxDocumentCheck;
 }
