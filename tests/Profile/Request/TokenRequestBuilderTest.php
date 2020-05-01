@@ -135,7 +135,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => $name,
@@ -173,7 +172,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => $name,
@@ -308,7 +306,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'selfie',
@@ -338,7 +335,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'selfie',
@@ -391,7 +387,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'document_details',
@@ -424,7 +419,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'document_details',
@@ -477,7 +471,6 @@ class TokenRequestBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'remember_me_id' => null,
                 'profile_attributes' => [
                     [
                         'name' => 'document_details',
