@@ -18,14 +18,39 @@ $ composer require yoti/yoti-php-sdk-sandbox
 
 Please do not open the PEM file, as this might corrupt the key, and you will need to redownload it.
 
+### Profile
+
+#### Profile Sandbox Client
 ```php
 use Yoti\Sandbox\Profile\SandboxClient;
-use Yoti\YotiClient;
 
 $sandboxClient = new SandboxClient('SANDBOX_CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
+```
+
+#### Yoti Client
+```php
+use Yoti\YotiClient;
 
 $yotiClient = new YotiClient('SANDBOX_CLIENT_SDK_ID', '/path/to/your-pem-file.pem', [
     'api.url' => 'https://api.yoti.com/sandbox/v1'
+]);
+```
+
+### Doc Scan
+
+#### Doc Scan Sandbox Client
+```php
+use Yoti\Sandbox\DocScan\SandboxClient;
+
+$sandboxClient = new SandboxClient('SANDBOX_CLIENT_SDK_ID', '/path/to/your-pem-file.pem');
+```
+
+#### Doc Scan Client
+```php
+use Yoti\DocScan\DocScanClient;
+
+$docScanClient = new DocScanClient('SANDBOX_CLIENT_SDK_ID', '/path/to/your-pem-file.pem', [
+    'api.url' => 'https://api.yoti.com/sandbox/idverify/v1'
 ]);
 ```
 
