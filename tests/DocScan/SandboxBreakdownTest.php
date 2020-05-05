@@ -107,40 +107,4 @@ class SandboxBreakdownTest extends TestCase
             json_encode($result)
         );
     }
-
-    /**
-     * @test
-     * @covers \Yoti\Sandbox\DocScan\SandboxBreakdownBuilder::passForCheck
-     */
-    public function passForCheckShouldReturnCorrectValues()
-    {
-        $result = SandboxBreakdownBuilder::passForCheck(self::SOME_SUB_CHECK);
-
-        $this->assertJsonStringEqualsJsonString(
-            json_encode([
-                'sub_check' => self::SOME_SUB_CHECK,
-                'result' => 'PASS',
-                'details' => [],
-            ]),
-            json_encode($result)
-        );
-    }
-
-    /**
-     * @test
-     * @covers \Yoti\Sandbox\DocScan\SandboxBreakdownBuilder::failForCheck
-     */
-    public function failForCheckShouldReturnCorrectValues()
-    {
-        $result = SandboxBreakdownBuilder::failForCheck(self::SOME_SUB_CHECK);
-
-        $this->assertJsonStringEqualsJsonString(
-            json_encode([
-                'sub_check' => self::SOME_SUB_CHECK,
-                'result' => 'FAIL',
-                'details' => [],
-            ]),
-            json_encode($result)
-        );
-    }
 }
