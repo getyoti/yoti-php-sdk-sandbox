@@ -8,10 +8,6 @@ use Yoti\Util\Validation;
 
 class SandboxBreakdownBuilder
 {
-
-    private const PASS = "PASS";
-    private const FAIL = "FAIL";
-
     /**
      * @var string
      */
@@ -26,24 +22,6 @@ class SandboxBreakdownBuilder
      * @var SandboxDetails[]
      */
     private $details = [];
-
-    /**
-     * @param string $check
-     * @return SandboxBreakdown
-     */
-    public static function passForCheck(string $check)
-    {
-        return new SandboxBreakdown($check, self::PASS, []);
-    }
-
-    /**
-     * @param string $check
-     * @return SandboxBreakdown
-     */
-    public static function failForCheck(string $check)
-    {
-        return new SandboxBreakdown($check, self::FAIL, []);
-    }
 
     /**
      * @param string $subCheck
