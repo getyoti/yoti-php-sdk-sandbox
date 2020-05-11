@@ -9,7 +9,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yoti\Sandbox\DocScan\Exception\SandboxDocScanException;
 use Yoti\Sandbox\DocScan\SandboxClient;
-use Yoti\Sandbox\DocScan\SandboxExpectation;
+use Yoti\Sandbox\DocScan\SandboxResponseConfig;
 use Yoti\Sandbox\Test\TestCase;
 use Yoti\Sandbox\Test\TestData;
 use Yoti\Util\Config;
@@ -24,13 +24,13 @@ class SandboxClientTest extends TestCase
      * @test
      * @throws \Yoti\Exception\PemFileException
      */
-    public function shouldCreateExpectationForSessionCorrectly()
+    public function shouldConfigureResponseForSessionCorrectly()
     {
         $response = $this->createMock(ResponseInterface::class);
         $response->method('getStatusCode')->willReturn(200);
 
-        $expectationMock = $this->createMock(SandboxExpectation::class);
-        $expectationMock->method('jsonSerialize')->willReturn((object) ['key' => 'value']);
+        $responseConfigMock = $this->createMock(SandboxResponseConfig::class);
+        $responseConfigMock->method('jsonSerialize')->willReturn((object) ['key' => 'value']);
 
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(1))
@@ -61,20 +61,20 @@ class SandboxClientTest extends TestCase
             ])
         );
 
-        $docScanSandboxClient->setExpectationForSession(self::SOME_SESSION_ID, $expectationMock);
+        $docScanSandboxClient->configureSessionResponse(self::SOME_SESSION_ID, $responseConfigMock);
     }
 
     /**
      * @test
      * @throws \Yoti\Exception\PemFileException
      */
-    public function shouldCreateExpectationForApplicationCorrectly()
+    public function shouldCreateResponseForApplicationCorrectly()
     {
         $response = $this->createMock(ResponseInterface::class);
         $response->method('getStatusCode')->willReturn(200);
 
-        $expectationMock = $this->createMock(SandboxExpectation::class);
-        $expectationMock->method('jsonSerialize')->willReturn((object) ['key' => 'value']);
+        $responseConfigMock = $this->createMock(SandboxResponseConfig::class);
+        $responseConfigMock->method('jsonSerialize')->willReturn((object) ['key' => 'value']);
 
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(1))
@@ -105,7 +105,7 @@ class SandboxClientTest extends TestCase
             ])
         );
 
-        $docScanSandboxClient->setExpectationForApplication($expectationMock);
+        $docScanSandboxClient->configureApplicationResponse($responseConfigMock);
     }
 
     /**
@@ -120,8 +120,8 @@ class SandboxClientTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
         $response->method('getStatusCode')->willReturn(400);
 
-        $expectationMock = $this->createMock(SandboxExpectation::class);
-        $expectationMock->method('jsonSerialize')->willReturn((object) ['key' => 'value']);
+        $responseConfigMock = $this->createMock(SandboxResponseConfig::class);
+        $responseConfigMock->method('jsonSerialize')->willReturn((object) ['key' => 'value']);
 
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(1))
@@ -136,6 +136,6 @@ class SandboxClientTest extends TestCase
             ])
         );
 
-        $docScanSandboxClient->setExpectationForApplication($expectationMock);
+        $docScanSandboxClient->configureApplicationResponse($responseConfigMock);
     }
 }

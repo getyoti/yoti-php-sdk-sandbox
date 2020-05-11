@@ -6,7 +6,7 @@ namespace Yoti\Sandbox\DocScan;
 
 use Yoti\Util\Json;
 
-class SandboxExpectation implements \JsonSerializable
+class SandboxResponseConfig implements \JsonSerializable
 {
 
     /**

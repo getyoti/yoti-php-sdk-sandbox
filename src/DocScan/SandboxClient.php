@@ -49,27 +49,36 @@ class SandboxClient
     }
 
     /**
-     * @param string|null $sessionId
-     * @param SandboxExpectation $expectation
+     * @param string $sessionId
+     * @param SandboxResponseConfig $responseConfig
      */
-    public function setExpectationForSession(?string $sessionId, SandboxExpectation $expectation): void
+    public function configureSessionResponse(string $sessionId, SandboxResponseConfig $responseConfig): void
     {
         $endpoint = sprintf(self::SESSION_RESPONSE_CONFIG_PATH, $sessionId);
-        $this->makeRequest($endpoint, $expectation);
+        $this->makeRequest($endpoint, $responseConfig);
+    }
+
+    /**
+     * @param SandboxResponseConfig $responseConfig
+     */
+    public function configureApplicationResponse(SandboxResponseConfig $responseConfig): void
+    {
+        $endpoint = sprintf(self::APPLICATION_RESPONSE_CONFIG_PATH, $this->sdkId);
+        $this->makeRequest($endpoint, $responseConfig);
     }
 
     /**
      * @param string $endpoint
-     * @param SandboxExpectation $expectation
+     * @param SandboxResponseConfig $responseConfig
      */
-    private function makeRequest(string $endpoint, SandboxExpectation $expectation): void
+    private function makeRequest(string $endpoint, SandboxResponseConfig $responseConfig): void
     {
         $response = (new RequestBuilder($this->config))
             ->withBaseUrl($this->config->getApiUrl() ?? self::SANDBOX_URL)
             ->withEndpoint($endpoint)
             ->withMethod(Request::METHOD_PUT)
             ->withPemFile($this->pemFile)
-            ->withPayload(Payload::fromJsonData($expectation))
+            ->withPayload(Payload::fromJsonData($responseConfig))
             ->withQueryParam('sdkId', $this->sdkId)
             ->build()
             ->execute();
@@ -78,14 +87,5 @@ class SandboxClient
         if ($responseCode < 200 || $responseCode >= 300) {
             throw new SandboxDocScanException("Failed on status code: " . $responseCode);
         }
-    }
-
-    /**
-     * @param SandboxExpectation $expectation
-     */
-    public function setExpectationForApplication(SandboxExpectation $expectation): void
-    {
-        $endpoint = sprintf(self::APPLICATION_RESPONSE_CONFIG_PATH, $this->sdkId);
-        $this->makeRequest($endpoint, $expectation);
     }
 }

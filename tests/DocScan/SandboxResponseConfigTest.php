@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Yoti\Sandbox\Test\DocScan;
 
 use Yoti\Sandbox\DocScan\SandboxCheckReports;
-use Yoti\Sandbox\DocScan\SandboxExpectationBuilder;
+use Yoti\Sandbox\DocScan\SandboxResponseConfigBuilder;
 use Yoti\Sandbox\DocScan\SandboxTaskResults;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\DocScan\SandboxExpectation
+ * @coversDefaultClass \Yoti\Sandbox\DocScan\SandboxResponseConfig
  */
-class SandboxExpectationTest extends \PHPUnit\Framework\TestCase
+class SandboxResponseConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
      * @covers ::__construct
      * @covers ::jsonSerialize
-     * @covers \Yoti\Sandbox\DocScan\SandboxExpectationBuilder::withTaskResults
-     * @covers \Yoti\Sandbox\DocScan\SandboxExpectationBuilder::withCheckReports
-     * @covers \Yoti\Sandbox\DocScan\SandboxExpectationBuilder::build
+     * @covers \Yoti\Sandbox\DocScan\SandboxResponseConfigBuilder::withTaskResults
+     * @covers \Yoti\Sandbox\DocScan\SandboxResponseConfigBuilder::withCheckReports
+     * @covers \Yoti\Sandbox\DocScan\SandboxResponseConfigBuilder::build
      */
     public function shouldBuildCorrectly()
     {
@@ -29,7 +29,7 @@ class SandboxExpectationTest extends \PHPUnit\Framework\TestCase
         $checkResultsMock = $this->createMock(SandboxCheckReports::class);
         $checkResultsMock->method('jsonSerialize')->willReturn((object) [ 'some' => 'check' ]);
 
-        $expectation = (new SandboxExpectationBuilder())
+        $responseConfig = (new SandboxResponseConfigBuilder())
             ->withTaskResults($taskResultsMock)
             ->withCheckReports($checkResultsMock)
             ->build();
@@ -39,7 +39,7 @@ class SandboxExpectationTest extends \PHPUnit\Framework\TestCase
                 'task_results' => $taskResultsMock,
                 'check_reports' => $checkResultsMock,
             ]),
-            json_encode($expectation)
+            json_encode($responseConfig)
         );
     }
 }
