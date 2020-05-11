@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\DocScan;
 
-class SandboxExpectationBuilder
+class SandboxResponseConfigBuilder
 {
 
     /**
@@ -38,10 +38,10 @@ class SandboxExpectationBuilder
     }
 
     /**
-     * @return SandboxExpectation
+     * @return SandboxResponseConfig
      */
-    public function build(): SandboxExpectation
+    public function build(): SandboxResponseConfig
     {
-        return new SandboxExpectation($this->taskResults, $this->checkReports);
+        return new SandboxResponseConfig($this->taskResults, $this->checkReports);
     }
 }
