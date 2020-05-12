@@ -9,6 +9,7 @@ use Yoti\Http\Payload;
 use Yoti\Http\Request;
 use Yoti\Http\RequestBuilder;
 use Yoti\Sandbox\DocScan\Exception\SandboxDocScanException;
+use Yoti\Sandbox\DocScan\Request\SandboxResponseConfig;
 use Yoti\Util\Config;
 use Yoti\Util\PemFile;
 
