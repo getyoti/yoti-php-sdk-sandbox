@@ -56,9 +56,9 @@ class SandboxClientTest extends TestCase
         $docScanSandboxClient = new SandboxClient(
             self::SOME_SDK_ID,
             TestData::PEM_FILE,
-            new Config([
+            [
                 Config::HTTP_CLIENT => $httpClient
-            ])
+            ]
         );
 
         $docScanSandboxClient->configureSessionResponse(self::SOME_SESSION_ID, $responseConfigMock);
@@ -100,9 +100,9 @@ class SandboxClientTest extends TestCase
         $docScanSandboxClient = new SandboxClient(
             self::SOME_SDK_ID,
             TestData::PEM_FILE,
-            new Config([
+            [
                 Config::HTTP_CLIENT => $httpClient
-            ])
+            ]
         );
 
         $docScanSandboxClient->configureApplicationResponse($responseConfigMock);
@@ -131,9 +131,9 @@ class SandboxClientTest extends TestCase
         $docScanSandboxClient = new SandboxClient(
             self::SOME_SDK_ID,
             TestData::PEM_FILE,
-            new Config([
+            [
                 Config::HTTP_CLIENT => $httpClient
-            ])
+            ]
         );
 
         $docScanSandboxClient->configureApplicationResponse($responseConfigMock);
