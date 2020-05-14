@@ -211,7 +211,7 @@ class FeatureContext extends RawMinkContext
      */
     public function theAuthenticityCheckBreakdownResultShouldBe($result)
     {
-        $this->assertElementContains('css', "*[data-qa='authenticity-checks'] *[data-qa='result']", $result);
+        $this->assertElementContains("*[data-qa='authenticity-checks'] *[data-qa='result']", $result);
     }
 
     /**
