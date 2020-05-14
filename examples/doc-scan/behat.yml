@@ -8,7 +8,6 @@ default:
         capabilities:
           browserName: 'chrome'
           browser: 'chrome'
-          #   version: "62"
           chrome:
             switches:
               - '--headless'
