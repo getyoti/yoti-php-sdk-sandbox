@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    build: https://github.com/getyoti/doc-scan-sandbox-test-app.git#0.1.0
+    env_file:
+        - ./.env
+    environment:
+        - YOTI_KEY_FILE_PATH=/usr/src/keys/privateKey.pem
+        - YOTI_CLIENT_SDK_ID=${YOTI_SANDBOX_CLIENT_SDK_ID}
+        # @TODO: Use YOTI_DOC_SCAN_API_URL once 3.10.0 is released
+        - YOTI_DOC_SCAN_API=${YOTI_DOC_SCAN_API_URL}
+    volumes:
+        - ${YOTI_KEY_FILE_PATH}:/usr/src/keys/privateKey.pem
+    ports:
+        - "3000:3000"
+    depends_on:
+        - selenium
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: selenium
+    volumes:
+      - ./resources:/usr/src/resources
+    ports:
+      - "${WD_PORT}:4444"
