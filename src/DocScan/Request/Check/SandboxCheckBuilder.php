@@ -41,12 +41,12 @@ abstract class SandboxCheckBuilder
     }
 
     /**
-     * @param SandboxBreakdown[] $breakdownList
+     * @param SandboxBreakdown[] $breakdowns
      * @return $this
      */
-    public function withBreakdownList(array $breakdownList): self
+    public function withBreakdowns(array $breakdowns): self
     {
-        $this->breakdownResponse = $breakdownList;
+        $this->breakdownResponse = $breakdowns;
         return $this;
     }
 
