@@ -75,9 +75,9 @@ class SandboxDocumentAuthenticityCheckBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldAllowOverwritingOfBreakdownList(): void
+    public function shouldAllowOverwritingOfBreakdowns(): void
     {
-        $breakdownList = [
+        $breakdowns = [
             $this->breakdownMock,
             $this->breakdownMock,
             $this->breakdownMock
@@ -85,7 +85,7 @@ class SandboxDocumentAuthenticityCheckBuilderTest extends TestCase
 
         $result = (new SandboxDocumentAuthenticityCheckBuilder())
             ->withRecommendation($this->recommendationMock)
-            ->withBreakdownList($breakdownList)
+            ->withBreakdowns($breakdowns)
             ->build();
 
         $this->assertJsonStringEqualsJsonString(
