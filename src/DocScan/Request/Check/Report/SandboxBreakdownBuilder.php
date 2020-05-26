@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\DocScan\Request;
+namespace Yoti\Sandbox\DocScan\Request\Check\Report;
 
 use Yoti\Util\Validation;
 
@@ -19,7 +19,7 @@ class SandboxBreakdownBuilder
     private $result;
 
     /**
-     * @var SandboxDetails[]
+     * @var SandboxDetail[]
      */
     private $details = [];
 
@@ -50,12 +50,12 @@ class SandboxBreakdownBuilder
      */
     public function withDetail(string $name, string $value): self
     {
-        $this->details[] = new SandboxDetails($name, $value);
+        $this->details[] = new SandboxDetail($name, $value);
         return $this;
     }
 
     /**
-     * @param SandboxDetails[] $details
+     * @param SandboxDetail[] $details
      * @return $this
      */
     public function withDetails(array $details): self

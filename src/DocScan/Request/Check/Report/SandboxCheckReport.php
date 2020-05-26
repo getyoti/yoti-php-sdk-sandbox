@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\DocScan\Request\Check;
-
-use Yoti\Sandbox\DocScan\Request\SandboxBreakdown;
-use Yoti\Sandbox\DocScan\Request\SandboxRecommendation;
+namespace Yoti\Sandbox\DocScan\Request\Check\Report;
 
 class SandboxCheckReport implements \JsonSerializable
 {

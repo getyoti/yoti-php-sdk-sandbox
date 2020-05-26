@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\DocScan\Request\Check;
 
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxCheckReport;
+
 class SandboxCheckResult implements \JsonSerializable
 {
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\DocScan\Request;
+namespace Yoti\Sandbox\DocScan\Request\Check\Report;
 
-class SandboxDetails implements \JsonSerializable
+class SandboxDetail implements \JsonSerializable
 {
 
     /**

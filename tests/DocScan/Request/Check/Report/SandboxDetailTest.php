@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\Test\DocScan\Request;
+namespace Yoti\Sandbox\Test\DocScan\Request\Check\Report;
 
-use Yoti\Sandbox\DocScan\Request\SandboxDetails;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxDetail;
 use Yoti\Sandbox\Test\TestCase;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\SandboxDetails
+ * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxDetail
  */
-class SandboxDetailsTest extends TestCase
+class SandboxDetailTest extends TestCase
 {
 
     private const SOME_NAME = 'someName';
@@ -24,7 +24,7 @@ class SandboxDetailsTest extends TestCase
      */
     public function shouldStoreValuesCorrectly()
     {
-        $result = (new SandboxDetails(self::SOME_NAME, self::SOME_VALUE));
+        $result = (new SandboxDetail(self::SOME_NAME, self::SOME_VALUE));
 
         $this->assertEquals(self::SOME_NAME, $result->getName());
         $this->assertEquals(self::SOME_VALUE, $result->getValue());
@@ -36,7 +36,7 @@ class SandboxDetailsTest extends TestCase
      */
     public function shouldSerializeToJsonCorrectly()
     {
-        $result = (new SandboxDetails(self::SOME_NAME, self::SOME_VALUE));
+        $result = (new SandboxDetail(self::SOME_NAME, self::SOME_VALUE));
 
         $expected = [
             'name' => self::SOME_NAME,
