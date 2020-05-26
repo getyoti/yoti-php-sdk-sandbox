@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\Test\DocScan\Request;
+namespace Yoti\Sandbox\Test\DocScan\Request\Check\Report;
 
-use Yoti\Sandbox\DocScan\Request\SandboxBreakdown;
-use Yoti\Sandbox\DocScan\Request\SandboxBreakdownBuilder;
-use Yoti\Sandbox\DocScan\Request\SandboxDetails;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdownBuilder;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxDetail;
 use Yoti\Sandbox\Test\TestCase;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\SandboxBreakdown
+ * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdown
  */
 class SandboxBreakdownTest extends TestCase
 {
@@ -24,10 +23,10 @@ class SandboxBreakdownTest extends TestCase
     /**
      * @test
      * @covers ::__construct
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxBreakdownBuilder::withSubCheck
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxBreakdownBuilder::withResult
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxBreakdownBuilder::withDetail
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxBreakdownBuilder::build
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdownBuilder::withSubCheck
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdownBuilder::withResult
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdownBuilder::withDetail
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdownBuilder::build
      */
     public function shouldBuildCorrectly()
     {
@@ -54,13 +53,13 @@ class SandboxBreakdownTest extends TestCase
 
     /**
      * @test
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxBreakdownBuilder::withDetails
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdownBuilder::withDetails
      */
     public function shouldAllowArrayOfDetails()
     {
         $details = [
-            $this->createMock(SandboxDetails::class),
-            $this->createMock(SandboxDetails::class)
+            $this->createMock(SandboxDetail::class),
+            $this->createMock(SandboxDetail::class)
         ];
 
         $result = (new SandboxBreakdownBuilder())
@@ -85,7 +84,7 @@ class SandboxBreakdownTest extends TestCase
      */
     public function shouldSerializeToJsonCorrectly()
     {
-        $detailsMock = $this->createMock(SandboxBreakdown::class);
+        $detailsMock = $this->createMock(SandboxDetail::class);
         $detailsMock
             ->method('jsonSerialize')
             ->willReturn((object) ['id' => 'someMock']);

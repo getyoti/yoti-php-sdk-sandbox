@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Yoti\Sandbox\Test\DocScan\Request\Check;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdown;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendation;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentAuthenticityCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentAuthenticityCheckBuilder;
-use Yoti\Sandbox\DocScan\Request\SandboxBreakdown;
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
-use Yoti\Sandbox\DocScan\Request\SandboxRecommendation;
 use Yoti\Sandbox\Test\TestCase;
 
 class SandboxDocumentAuthenticityCheckBuilderTest extends TestCase

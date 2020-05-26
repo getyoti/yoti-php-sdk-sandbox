@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\DocScan\Request\Check;
 
-use Yoti\Sandbox\DocScan\Request\SandboxBreakdown;
-use Yoti\Sandbox\DocScan\Request\SandboxRecommendation;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdown;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxCheckReport;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendation;
 
 abstract class SandboxCheckBuilder
 {

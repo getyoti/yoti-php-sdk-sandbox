@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\Test\DocScan\Request;
+namespace Yoti\Sandbox\Test\DocScan\Request\Check\Report;
 
-use Yoti\Sandbox\DocScan\Request\SandboxRecommendationBuilder;
+use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendationBuilder;
 use Yoti\Sandbox\Test\TestCase;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\SandboxRecommendation
+ * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendation
  */
 class SandboxRecommendationTest extends TestCase
 {
@@ -21,10 +21,10 @@ class SandboxRecommendationTest extends TestCase
      * @test
      * @covers ::__construct
      * @covers ::jsonSerialize
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxRecommendationBuilder::withValue
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxRecommendationBuilder::withReason
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxRecommendationBuilder::withRecoverySuggestion
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxRecommendationBuilder::build
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendationBuilder::withValue
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendationBuilder::withReason
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendationBuilder::withRecoverySuggestion
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendationBuilder::build
      */
     public function shouldBuildCorrectly()
     {
