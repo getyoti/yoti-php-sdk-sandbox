@@ -83,9 +83,8 @@ class SandboxClientTest extends TestCase
                 $this->callback(
                     function (RequestInterface $requestMessage) {
                         $expectedPathPattern = sprintf(
-                            '~^%s/apps/%s/response-config\?sdkId=%s&nonce=.*?&timestamp=.*?~',
+                            '~^%s/apps/%s/response-config\?nonce=.*?&timestamp=.*?~',
                             self::DOC_SCAN_SANDBOX_BASE_URL,
-                            self::SOME_SDK_ID,
                             self::SOME_SDK_ID
                         );
 
