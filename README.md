@@ -56,4 +56,5 @@ $docScanClient = new DocScanClient('SANDBOX_CLIENT_SDK_ID', '/path/to/your-pem-f
 
 ## Examples
 
-- See [examples/profile](examples/profile) for a general example of how to use the Profile Sandbox in your tests.
+- [Profile Sandbox](examples/profile)
+- [Doc Scan Sandbox](examples/doc-scan)
