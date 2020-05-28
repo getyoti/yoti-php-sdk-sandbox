@@ -3,8 +3,6 @@
 namespace Yoti\Demo\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
-use Dotenv\Dotenv;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdownBuilder;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendationBuilder;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentAuthenticityCheckBuilder;
@@ -26,15 +24,6 @@ class FeatureContext extends RawMinkContext
      * @var array
      */
     private $settings;
-
-    /**
-     * @BeforeSuite
-     */
-    public static function prepare(BeforeSuiteScope $scope)
-    {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
-        $dotenv->load();
-    }
 
     /**
      * Initializes context.
