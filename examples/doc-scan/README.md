@@ -12,4 +12,8 @@ An example of configuring a session response can be found in the [FeatureContext
 
 ## Running the test
 
-1. Run tests `composer test`
+1. `docker-compose up test`
+
+## Stopping services
+
+1. `docker-compose down`

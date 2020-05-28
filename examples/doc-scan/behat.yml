@@ -5,6 +5,7 @@ default:
       javascript_session: selenium2
       browser_name: 'chrome'
       selenium2:
+        wd_host: http://selenium:4444/wd/hub
         capabilities:
           browserName: 'chrome'
           browser: 'chrome'
