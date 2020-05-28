@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": [
-      "docker-compose up -d && sleep 5",
+      "docker-compose up -d app && sleep 5",
       "behat --colors",
       "docker-compose down"
     ],

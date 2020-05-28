@@ -6,5 +6,10 @@ An example of configuring a session response can be found in the [FeatureContext
 
 1. Rename the [.env.example](.env.example) file to `.env` and fill in the required configuration values
 
+## Installing dependencies
+
+1. `docker-compose up composer`
+
 ## Running the test
+
 1. Run tests `composer test`

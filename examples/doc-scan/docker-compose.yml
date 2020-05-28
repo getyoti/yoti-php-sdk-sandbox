@@ -23,3 +23,10 @@ services:
       - ./resources:/usr/src/resources
     ports:
       - "4444:4444"
+
+  composer:
+    image: composer
+    volumes:
+      - ../../:/app
+    working_dir: /app/examples/doc-scan
+    command: update
