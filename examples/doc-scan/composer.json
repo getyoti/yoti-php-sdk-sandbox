@@ -13,11 +13,6 @@
     "symfony/dotenv": "^5.0"
   },
   "scripts": {
-    "test": [
-      "docker-compose up -d app && sleep 5",
-      "behat --colors",
-      "docker-compose down"
-    ],
     "pre-install-cmd": "@copy-sdk",
     "pre-update-cmd": "@copy-sdk",
     "copy-sdk": "grep -q 'yoti-php-sdk-sandbox' ../../composer.json && rm -fr ./sandbox && cd ../../ && git archive --prefix=sandbox/ --format=tar HEAD | (cd - && tar xf -) || echo 'Could not install Sandbox from parent directory'"

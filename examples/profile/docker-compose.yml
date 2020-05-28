@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  test:
+    image: php:7-fpm-alpine
+    volumes:
+      - ./:/var/www/html
+    command: ./vendor/bin/phpunit --colors=always
+
+  composer:
+    image: composer
+    volumes:
+      - ../../:/app
+    working_dir: /app/examples/profile
+    command: update
