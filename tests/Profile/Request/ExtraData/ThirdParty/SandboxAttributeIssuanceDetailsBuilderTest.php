@@ -44,7 +44,7 @@ class SandboxAttributeIssuanceDetailsBuilderTest extends TestCase
                 'value' => [
                     'issuance_token' => self::SOME_TOKEN,
                     'issuing_attributes' => [
-                        'expiry_date' => $someDateTime->format(DateTime::RFC3339),
+                        'expiry_date' => $someDateTime->format(\DateTime::RFC3339_EXTENDED),
                         'definitions' => [
                             [
                                 'name' => self::SOME_DEFINITION,

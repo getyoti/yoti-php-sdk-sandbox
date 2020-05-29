@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\Profile\Request\ExtraData\ThirdParty;
 
-use Yoti\Util\DateTime;
 use Yoti\Util\Validation;
 
 class SandboxIssuingAttributes implements \JsonSerializable
@@ -37,7 +36,9 @@ class SandboxIssuingAttributes implements \JsonSerializable
     public function jsonSerialize(): \stdClass
     {
         return (object) [
-            'expiry_date' => $this->expiryDate->format(DateTime::RFC3339),
+            'expiry_date' => $this->expiryDate
+                ->setTimezone(new \DateTimeZone('UTC'))
+                ->format(\DateTime::RFC3339_EXTENDED),
             'definitions' => $this->definitions,
         ];
     }
