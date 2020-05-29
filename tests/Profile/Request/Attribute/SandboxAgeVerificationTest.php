@@ -41,7 +41,6 @@ class SandboxAgeVerificationTest extends TestCase
                 'name' => UserProfile::ATTR_DATE_OF_BIRTH,
                 'value' => self::SOME_TIMESTAMP_DATE_STRING,
                 'derivation' => self::SOME_DERIVATION,
-                'optional' => true,
                 'anchors' => [],
             ]),
             json_encode($this->ageVerification)
@@ -64,7 +63,6 @@ class SandboxAgeVerificationTest extends TestCase
                 'name' => UserProfile::ATTR_DATE_OF_BIRTH,
                 'value' => self::SOME_TIMESTAMP_DATE_STRING,
                 'derivation' => 'age_over:20',
-                'optional' => true,
                 'anchors' => [],
             ]),
             json_encode($ageOverVerification)
@@ -87,7 +85,6 @@ class SandboxAgeVerificationTest extends TestCase
                 'name' => UserProfile::ATTR_DATE_OF_BIRTH,
                 'value' => self::SOME_TIMESTAMP_DATE_STRING,
                 'derivation' => 'age_under:30',
-                'optional' => true,
                 'anchors' => [],
             ]),
             json_encode($ageUnderVerification)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\Test\Profile\Request\Attribute;
 
+use Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute;
 use Yoti\Sandbox\Test\TestCase;
 
@@ -16,17 +17,16 @@ class SandboxAttributeTest extends TestCase
     private const SOME_VALUE = 'some-value';
 
     /**
-     * @var SandboxAttribute
+     * @var SandboxAnchor
      */
-    public $attribute;
+    private $mockAnchor;
 
     public function setup(): void
     {
-        $this->attribute = new SandboxAttribute(
-            self::SOME_NAME,
-            self::SOME_VALUE,
-            ''
-        );
+        $this->mockAnchor = $this->createMock(SandboxAnchor::class);
+        $this->mockAnchor
+            ->method('jsonSerialize')
+            ->willReturn(['some' => 'anchor']);
     }
 
     /**
@@ -35,15 +35,105 @@ class SandboxAttributeTest extends TestCase
      */
     public function testJsonSerialize()
     {
+        $attribute = new SandboxAttribute(
+            self::SOME_NAME,
+            self::SOME_VALUE,
+            ''
+        );
+
         $this->assertJsonStringEqualsJsonString(
             json_encode([
                 'name' => self::SOME_NAME,
                 'value' => self::SOME_VALUE,
                 'derivation' => '',
-                'optional' => false,
                 'anchors' => [],
             ]),
-            json_encode($this->attribute)
+            json_encode($attribute)
+        );
+    }
+
+    /**
+     * @covers ::jsonSerialize
+     * @covers ::__construct
+     */
+    public function testJsonSerializeWithAnchor()
+    {
+        $attribute = new SandboxAttribute(
+            self::SOME_NAME,
+            self::SOME_VALUE,
+            '',
+            [$this->mockAnchor]
+        );
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'name' => self::SOME_NAME,
+                'value' => self::SOME_VALUE,
+                'derivation' => '',
+                'anchors' => [$this->mockAnchor],
+            ]),
+            json_encode($attribute)
+        );
+    }
+
+    /**
+     * @group legacy
+     *
+     * phpcs:disable
+     * @expectedDeprecation Boolean argument 4 passed to Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute::__construct is deprecated in 1.1.0 and will be removed in 2.0.0
+     * phpcs:enable
+     *
+     * @covers ::jsonSerialize
+     * @covers ::__construct
+     */
+    public function testJsonSerializeWithOptional()
+    {
+        $attribute = new SandboxAttribute(
+            self::SOME_NAME,
+            self::SOME_VALUE,
+            '',
+            true
+        );
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'name' => self::SOME_NAME,
+                'value' => self::SOME_VALUE,
+                'derivation' => '',
+                'anchors' => [],
+            ]),
+            json_encode($attribute)
+        );
+    }
+
+    /**
+     * @group legacy
+     *
+     * phpcs:disable
+     * @expectedDeprecation Boolean argument 4 passed to Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute::__construct is deprecated in 1.1.0 and will be removed in 2.0.0
+     * phpcs:enable
+     *
+     * @covers ::jsonSerialize
+     * @covers ::__construct
+     */
+    public function testJsonSerializeWithOptionalAndAnchor()
+    {
+        $attribute = new SandboxAttribute(
+            self::SOME_NAME,
+            self::SOME_VALUE,
+            '',
+            true,
+            [$this->mockAnchor]
+        );
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'name' => self::SOME_NAME,
+                'value' => self::SOME_VALUE,
+                'derivation' => '',
+                'anchors' => [$this->mockAnchor],
+            ]),
+            json_encode($attribute)
         );
     }
 }

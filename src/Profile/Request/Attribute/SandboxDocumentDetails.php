@@ -10,12 +10,20 @@ class SandboxDocumentDetails extends DocumentDetails
 {
     public function getValue(): string
     {
-        $value = $this->getType() . ' ' . $this->getIssuingCountry() . ' ' . $this->getDocumentNumber() . ' ';
+        $details = [
+            $this->getType(),
+            $this->getIssuingCountry(),
+            $this->getDocumentNumber(),
+        ];
 
         $expirationDate = $this->getExpirationDate();
-        $value .= (null !== $expirationDate) ? $expirationDate->format('Y-m-d') : '-';
-        $value .= (null !== $this->getIssuingAuthority()) ? ' ' . $this->getIssuingAuthority() : '';
+        $details[] = (null !== $expirationDate) ? $expirationDate->format('Y-m-d') : '-';
 
-        return $value;
+        $issuingAuthority = $this->getIssuingAuthority();
+        if (null !== $issuingAuthority) {
+            $details[] = $issuingAuthority;
+        }
+
+        return implode(' ', $details);
     }
 }

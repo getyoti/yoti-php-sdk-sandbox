@@ -1,0 +1,27 @@
+default:
+  extensions:
+    Behat\MinkExtension:
+      base_url: https://app:3000
+      javascript_session: selenium2
+      browser_name: 'chrome'
+      selenium2:
+        wd_host: http://selenium:4444/wd/hub
+        capabilities:
+          browserName: 'chrome'
+          browser: 'chrome'
+          chrome:
+            switches:
+              - '--headless'
+              - '--no-sandbox'
+              - '--disable-dev-shm-usage'
+              - '--disable-gpu'
+              - '--window-size=1280,2000'
+              - '--ignore-certificate-errors'
+  suites:
+    default:
+      contexts:
+        - Yoti\Demo\Context\FeatureContext:
+          - image_path: '/usr/src/resources/image.jpg'
+            timeouts:
+              implicit: 5000
+        - Behat\MinkExtension\Context\MinkContext

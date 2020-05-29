@@ -56,17 +56,17 @@ class ProfileTest extends PHPUnitTestCase
 
         $tokenRequest = (new TokenRequestBuilder())
             ->setRememberMeId('Some Remember Me ID')
-            ->setGivenNames('Some Given Names', false, $anchors)
-            ->setFamilyName('Some Family Name', false, $anchors)
-            ->setFullName('Some Full Name', false, $anchors)
-            ->setDateOfBirth(new \DateTime('1980-01-01'), false, $anchors)
-            ->setGender('Some Gender', false, $anchors)
+            ->setGivenNames('Some Given Names', $anchors)
+            ->setFamilyName('Some Family Name', $anchors)
+            ->setFullName('Some Full Name', $anchors)
+            ->setDateOfBirth(new \DateTime('1980-01-01'), $anchors)
+            ->setGender('Some Gender', $anchors)
             ->setPhoneNumber('Some Phone Number')
-            ->setNationality('Some Nationality', false, $anchors)
+            ->setNationality('Some Nationality', $anchors)
             ->setEmailAddress('some@email.address')
             ->setBase64Selfie(base64_encode('Some Selfie'))
             ->setAgeVerification($ageVerification)
-            ->setDocumentDetailsWithString('PASSPORT USA 1234abc', false, $anchors)
+            ->setDocumentDetailsWithString('PASSPORT USA 1234abc', $anchors)
             ->setStructuredPostalAddress(json_encode([
                 'building_number' => 1,
                 'address_line1' => 'Some Address',

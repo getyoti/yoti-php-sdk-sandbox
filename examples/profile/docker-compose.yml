@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  test:
+    image: php:7-fpm-alpine
+    command: ./vendor/bin/phpunit --colors=always
+    env_file:
+      - ./.env
+    environment:
+      - YOTI_KEY_FILE_PATH=/usr/src/keys/privateKey.pem
+      - YOTI_SANDBOX_CLIENT_SDK_ID=${YOTI_SANDBOX_CLIENT_SDK_ID}
+    volumes:
+      - ./:/var/www/html
+      - ${YOTI_KEY_FILE_PATH}:/usr/src/keys/privateKey.pem
+
+  composer:
+    image: composer
+    volumes:
+      - ../../:/app
+    working_dir: /app/examples/profile
+    command: update
