@@ -46,7 +46,7 @@ class SandboxClientTest extends TestCase
                         );
 
                         $this->assertEquals('PUT', $requestMessage->getMethod());
-                        $this->assertRegExp($expectedPathPattern, (string)$requestMessage->getUri());
+                        $this->assertMatchesRegularExpression($expectedPathPattern, (string)$requestMessage->getUri());
                         return true;
                     }
                 )
@@ -89,7 +89,7 @@ class SandboxClientTest extends TestCase
                         );
 
                         $this->assertEquals('PUT', $requestMessage->getMethod());
-                        $this->assertRegExp($expectedPathPattern, (string)$requestMessage->getUri());
+                        $this->assertMatchesRegularExpression($expectedPathPattern, (string)$requestMessage->getUri());
                         return true;
                     }
                 )
