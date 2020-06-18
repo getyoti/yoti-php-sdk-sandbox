@@ -6,6 +6,8 @@ namespace Yoti\Sandbox\Profile\Request;
 
 use Yoti\Http\Payload;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute;
+use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraData;
+use Yoti\Util\Json;
 use Yoti\Util\Validation;
 
 class TokenRequest implements \JsonSerializable
@@ -21,15 +23,22 @@ class TokenRequest implements \JsonSerializable
     private $sandboxAttributes;
 
     /**
+     * @var SandboxExtraData|null
+     */
+    private $extraData;
+
+    /**
      * @param string|null $rememberMeId
      * @param SandboxAttribute[] $sandboxAttributes
      */
-    public function __construct(?string $rememberMeId, array $sandboxAttributes)
+    public function __construct(?string $rememberMeId, array $sandboxAttributes, ?SandboxExtraData $extraData = null)
     {
         $this->rememberMeId = $rememberMeId;
 
         Validation::isArrayOfType($sandboxAttributes, [ SandboxAttribute::class ], 'sandboxAttributes');
         $this->sandboxAttributes = $sandboxAttributes;
+
+        $this->extraData = $extraData;
     }
 
     /**
@@ -37,10 +46,11 @@ class TokenRequest implements \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return [
+        return Json::withoutNullValues([
             'remember_me_id' => $this->rememberMeId,
             'profile_attributes' => $this->sandboxAttributes,
-        ];
+            'extra_data' => $this->extraData,
+        ]);
     }
 
     /**
