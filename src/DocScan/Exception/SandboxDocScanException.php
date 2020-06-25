@@ -94,14 +94,15 @@ class SandboxDocScanException extends \Exception
             return [];
         }
 
-        return array_filter(array_map(
-            function ($error): ?string {
+        return array_reduce(
+            $jsonData->errors,
+            function ($carry, $error): array {
                 if (isset($error->property) && isset($error->message)) {
-                    return sprintf('%s "%s"', $error->property, $error->message);
+                    $carry[] = sprintf('%s "%s"', $error->property, $error->message);
                 }
-                return null;
+                return $carry;
             },
-            $jsonData->errors
-        ));
+            []
+        );
     }
 }
