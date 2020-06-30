@@ -8,6 +8,7 @@ use Yoti\Profile\UserProfile;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentDetails;
+use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentImages;
 use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraData;
 
 class TokenRequestBuilder
@@ -254,8 +255,22 @@ class TokenRequestBuilder
      */
     public function setAgeVerification(SandboxAgeVerification $ageVerification): self
     {
-        $this->addAttribute($ageVerification);
-        return $this;
+        return $this->addAttribute($ageVerification);
+    }
+
+    /**
+     * @param SandboxDocumentImages $documentImages
+     * @param \Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor[] $anchors
+     *
+     * @return $this
+     */
+    public function setDocumentImages(SandboxDocumentImages $documentImages, array $anchors = []): self
+    {
+        return $this->createAttribute(
+            UserProfile::ATTR_DOCUMENT_IMAGES,
+            $documentImages->getValue(),
+            $anchors
+        );
     }
 
     /**
