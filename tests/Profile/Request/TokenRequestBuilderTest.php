@@ -7,6 +7,7 @@ namespace Yoti\Sandbox\Test\Profile\Request;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentDetails;
+use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentImages;
 use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraData;
 use Yoti\Sandbox\Profile\Request\TokenRequest;
 use Yoti\Sandbox\Profile\Request\TokenRequestBuilder;
@@ -520,6 +521,58 @@ class TokenRequestBuilderTest extends TestCase
             json_encode([
                 'profile_attributes' => [],
                 'extra_data' => $someExtraData,
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @covers ::setDocumentImages
+     */
+    public function testSetDocumentImages()
+    {
+        $someDocumentImages  = $this->createMock(SandboxDocumentImages::class);
+        $someDocumentImages->method('getValue')->willReturn(self::SOME_STRING_VALUE);
+
+        $this->requestBuilder->setDocumentImages($someDocumentImages);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'profile_attributes' => [
+                    [
+                        'name' => 'document_images',
+                        'value' => self::SOME_STRING_VALUE,
+                        'derivation' => '',
+                        'anchors' => [],
+                    ]
+                ]
+            ]),
+            json_encode($tokenRequest)
+        );
+    }
+
+    /**
+     * @covers ::setDocumentImages
+     */
+    public function testSetDocumentImagesWithAnchor()
+    {
+        $someDocumentImages  = $this->createMock(SandboxDocumentImages::class);
+        $someDocumentImages->method('getValue')->willReturn(self::SOME_STRING_VALUE);
+
+        $this->requestBuilder->setDocumentImages($someDocumentImages, [$this->mockAnchor]);
+        $tokenRequest = $this->requestBuilder->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'profile_attributes' => [
+                    [
+                        'name' => 'document_images',
+                        'value' => self::SOME_STRING_VALUE,
+                        'derivation' => '',
+                        'anchors' => [$this->mockAnchor],
+                    ]
+                ]
             ]),
             json_encode($tokenRequest)
         );
