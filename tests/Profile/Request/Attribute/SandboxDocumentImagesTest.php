@@ -62,12 +62,14 @@ class SandboxDocumentImagesTest extends TestCase
         $sandboxDocumentImages = (new SandboxDocumentImagesBuilder())
             ->withJpegContent(self::SOME_CONTENT)
             ->withPngContent(self::SOME_CONTENT)
+            ->withPngContent(self::SOME_CONTENT)
             ->build();
 
         $this->assertEquals(
             sprintf(
-                '%s&%s',
+                '%s&%s&%s',
                 self::dataUrl(self::SOME_CONTENT, 'image/jpeg'),
+                self::dataUrl(self::SOME_CONTENT, 'image/png'),
                 self::dataUrl(self::SOME_CONTENT, 'image/png')
             ),
             $sandboxDocumentImages->getValue()
