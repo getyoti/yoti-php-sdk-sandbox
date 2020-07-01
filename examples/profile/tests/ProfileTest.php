@@ -123,8 +123,7 @@ class ProfileTest extends PHPUnitTestCase
         $this->assertEquals('USA', $documentDetails->getIssuingCountry());
         $this->assertEquals('1234abc', $documentDetails->getDocumentNumber());
 
-        $this->assertEquals('some JPEG', $profile->getDocumentImages()->getValue()[0]->getContent());
-        $this->assertEquals('some PNG', $profile->getDocumentImages()->getValue()[1]->getContent());
+        $this->assertCount(2, $profile->getDocumentImages()->getValue());
 
         $this->assertEquals('PASSPORT', $profile->getGivenNames()->getSources()[0]->getValue());
         $this->assertEquals('YOTI_ADMIN', $profile->getGivenNames()->getVerifiers()[0]->getValue());
