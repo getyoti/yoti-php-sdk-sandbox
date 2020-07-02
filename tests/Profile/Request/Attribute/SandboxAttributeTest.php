@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\Test\Profile\Request\Attribute;
 
+use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute;
 use Yoti\Sandbox\Test\TestCase;
@@ -13,6 +14,8 @@ use Yoti\Sandbox\Test\TestCase;
  */
 class SandboxAttributeTest extends TestCase
 {
+    use ExpectDeprecationTrait;
+
     private const SOME_NAME = 'some-name';
     private const SOME_VALUE = 'some-value';
 
@@ -79,15 +82,13 @@ class SandboxAttributeTest extends TestCase
     /**
      * @group legacy
      *
-     * phpcs:disable
-     * @expectedDeprecation Boolean argument 4 passed to Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute::__construct is deprecated in 1.1.0 and will be removed in 2.0.0
-     * phpcs:enable
-     *
      * @covers ::jsonSerialize
      * @covers ::__construct
      */
     public function testJsonSerializeWithOptional()
     {
+        $this->expectOptionalDeprecation();
+
         $attribute = new SandboxAttribute(
             self::SOME_NAME,
             self::SOME_VALUE,
@@ -109,15 +110,13 @@ class SandboxAttributeTest extends TestCase
     /**
      * @group legacy
      *
-     * phpcs:disable
-     * @expectedDeprecation Boolean argument 4 passed to Yoti\Sandbox\Profile\Request\Attribute\SandboxAttribute::__construct is deprecated in 1.1.0 and will be removed in 2.0.0
-     * phpcs:enable
-     *
      * @covers ::jsonSerialize
      * @covers ::__construct
      */
     public function testJsonSerializeWithOptionalAndAnchor()
     {
+        $this->expectOptionalDeprecation();
+
         $attribute = new SandboxAttribute(
             self::SOME_NAME,
             self::SOME_VALUE,
@@ -135,5 +134,16 @@ class SandboxAttributeTest extends TestCase
             ]),
             json_encode($attribute)
         );
+    }
+
+    /**
+     * Expect deprecation error for optional parameter.
+     */
+    private function expectOptionalDeprecation(): void
+    {
+        $this->expectDeprecation(sprintf(
+            'Boolean argument 4 passed to %s::__construct is deprecated in 1.1.0 and will be removed in 2.0.0',
+            SandboxAttribute::class
+        ));
     }
 }

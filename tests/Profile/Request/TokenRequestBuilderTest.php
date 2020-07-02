@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\Test\Profile\Request;
 
+use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentDetails;
@@ -18,6 +19,8 @@ use Yoti\Sandbox\Test\TestCase;
  */
 class TokenRequestBuilderTest extends TestCase
 {
+    use ExpectDeprecationTrait;
+
     private const SOME_REMEMBER_ME_ID = 'some_remember_me_id';
     private const SOME_NAME = 'some name';
     private const SOME_STRING_VALUE = 'some string';
@@ -109,10 +112,6 @@ class TokenRequestBuilderTest extends TestCase
     /**
      * @group legacy
      *
-     * phpcs:disable
-     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::%s is deprecated in 1.1.0 and will be removed in 2.0.0
-     * phpcs:enable
-     *
      * @covers ::setFullName
      * @covers ::setFamilyName
      * @covers ::setGivenNames
@@ -131,6 +130,8 @@ class TokenRequestBuilderTest extends TestCase
      */
     public function testStringAttributeSettersWithOptional($setterMethod, $name)
     {
+        $this->expectOptionalDeprecation($setterMethod);
+
         $this->requestBuilder->{$setterMethod}(self::SOME_STRING_VALUE, true);
         $tokenRequest = $this->requestBuilder->build();
 
@@ -189,10 +190,6 @@ class TokenRequestBuilderTest extends TestCase
     /**
      * @group legacy
      *
-     * phpcs:disable
-     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::%s is deprecated in 1.1.0 and will be removed in 2.0.0
-     * phpcs:enable
-     *
      * @covers ::setFullName
      * @covers ::setFamilyName
      * @covers ::setGivenNames
@@ -211,6 +208,8 @@ class TokenRequestBuilderTest extends TestCase
      */
     public function testStringAttributeSettersWithOptionalAndAnchor($setterMethod, $name)
     {
+        $this->expectOptionalDeprecation($setterMethod);
+
         $this->requestBuilder->{$setterMethod}(self::SOME_STRING_VALUE, true, [$this->mockAnchor]);
         $tokenRequest = $this->requestBuilder->build();
 
@@ -323,14 +322,12 @@ class TokenRequestBuilderTest extends TestCase
     /**
      * @group legacy
      *
-     * phpcs:disable
-     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::setSelfie is deprecated in 1.1.0 and will be removed in 2.0.0
-     * phpcs:enable
-     *
      * @covers ::setSelfie
      */
     public function testSetSelfieWithOptionalAndAnchor()
     {
+        $this->expectOptionalDeprecation('setSelfie');
+
         $this->requestBuilder->setSelfie(self::SOME_STRING_VALUE, true, [$this->mockAnchor]);
         $tokenRequest = $this->requestBuilder->build();
 
@@ -404,14 +401,12 @@ class TokenRequestBuilderTest extends TestCase
     /**
      * @group legacy
      *
-     * phpcs:disable
-     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::setDocumentDetails is deprecated in 1.1.0 and will be removed in 2.0.0
-     * phpcs:enable
-     *
      * @covers ::setDocumentDetails
      */
     public function testSetDocumentDetailsWithOptionalAndAnchor()
     {
+        $this->expectOptionalDeprecation('setDocumentDetails');
+
         $someDocumentDetails  = $this->createMock(SandboxDocumentDetails::class);
         $someDocumentDetails->method('getValue')->willReturn(self::SOME_STRING_VALUE);
 
@@ -459,14 +454,12 @@ class TokenRequestBuilderTest extends TestCase
     /**
      * @group legacy
      *
-     * phpcs:disable
-     * @expectedDeprecation Boolean argument 2 passed to Yoti\Sandbox\Profile\Request\TokenRequestBuilder::setDocumentDetailsWithString is deprecated in 1.1.0 and will be removed in 2.0.0
-     * phpcs:enable
-     *
      * @covers ::setDocumentDetailsWithString
      */
     public function testSetDocumentDetailsWithStringAndOptionalAndAnchors()
     {
+        $this->expectOptionalDeprecation('setDocumentDetailsWithString');
+
         $this->requestBuilder->setDocumentDetailsWithString(self::SOME_STRING_VALUE, true, [$this->mockAnchor]);
         $tokenRequest = $this->requestBuilder->build();
 
@@ -576,5 +569,19 @@ class TokenRequestBuilderTest extends TestCase
             ]),
             json_encode($tokenRequest)
         );
+    }
+
+    /**
+     * Expect deprecation error for optional parameter.
+     *
+     * @param string $method
+     */
+    private function expectOptionalDeprecation($method): void
+    {
+        $this->expectDeprecation(sprintf(
+            'Boolean argument 2 passed to %s::%s is deprecated in 1.1.0 and will be removed in 2.0.0',
+            TokenRequestBuilder::class,
+            $method
+        ));
     }
 }
