@@ -31,7 +31,7 @@ class SandboxDocumentImagesBuilder
      *
      * @return $this
      */
-    public function withJpegContent($content): self
+    public function withJpegContent(string $content): self
     {
         return $this->withImage(new Jpeg($content));
     }
@@ -41,7 +41,7 @@ class SandboxDocumentImagesBuilder
      *
      * @return $this
      */
-    public function withPngContent($content): self
+    public function withPngContent(string $content): self
     {
         return $this->withImage(new Png($content));
     }
