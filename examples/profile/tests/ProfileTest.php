@@ -7,6 +7,7 @@ namespace Yoti\Sandbox\Examples\Profile\Test;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAgeVerification;
 use Yoti\Sandbox\Profile\Request\Attribute\SandboxAnchor;
+use Yoti\Sandbox\Profile\Request\Attribute\SandboxDocumentImagesBuilder;
 use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraDataBuilder;
 use Yoti\Sandbox\Profile\Request\ExtraData\ThirdParty\SandboxAttributeIssuanceDetailsBuilder;
 use Yoti\Sandbox\Profile\Request\TokenRequestBuilder;
@@ -67,6 +68,11 @@ class ProfileTest extends PHPUnitTestCase
             )
             ->build();
 
+        $documentImages = (new SandboxDocumentImagesBuilder())
+            ->withJpegContent('some JPEG')
+            ->withPngContent('some PNG')
+            ->build();
+
         $tokenRequest = (new TokenRequestBuilder())
             ->setRememberMeId('Some Remember Me ID')
             ->setGivenNames('Some Given Names', $anchors)
@@ -80,6 +86,7 @@ class ProfileTest extends PHPUnitTestCase
             ->setBase64Selfie(base64_encode('Some Selfie'))
             ->setAgeVerification($ageVerification)
             ->setDocumentDetailsWithString('PASSPORT USA 1234abc', $anchors)
+            ->setDocumentImages($documentImages)
             ->setStructuredPostalAddress(json_encode([
                 'building_number' => 1,
                 'address_line1' => 'Some Address',
@@ -115,6 +122,8 @@ class ProfileTest extends PHPUnitTestCase
         $this->assertEquals('PASSPORT', $documentDetails->getType());
         $this->assertEquals('USA', $documentDetails->getIssuingCountry());
         $this->assertEquals('1234abc', $documentDetails->getDocumentNumber());
+
+        $this->assertCount(2, $profile->getDocumentImages()->getValue());
 
         $this->assertEquals('PASSPORT', $profile->getGivenNames()->getSources()[0]->getValue());
         $this->assertEquals('YOTI_ADMIN', $profile->getGivenNames()->getVerifiers()[0]->getValue());
