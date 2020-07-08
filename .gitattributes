@@ -11,6 +11,7 @@
 /.dependabot export-ignore
 /phpstan.neon.dist export-ignore
 /examples export-ignore
+/.github export-ignore
 
 # Auto detect text files and perform LF normalization
 * text=auto
