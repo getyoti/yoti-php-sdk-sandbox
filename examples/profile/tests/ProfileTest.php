@@ -12,6 +12,7 @@ use Yoti\Sandbox\Profile\Request\ExtraData\SandboxExtraDataBuilder;
 use Yoti\Sandbox\Profile\Request\ExtraData\ThirdParty\SandboxAttributeIssuanceDetailsBuilder;
 use Yoti\Sandbox\Profile\Request\TokenRequestBuilder;
 use Yoti\Sandbox\Profile\SandboxClient;
+use Yoti\Util\Base64;
 use Yoti\YotiClient;
 
 class ProfileTest extends PHPUnitTestCase
@@ -129,7 +130,7 @@ class ProfileTest extends PHPUnitTestCase
         $this->assertEquals('YOTI_ADMIN', $profile->getGivenNames()->getVerifiers()[0]->getValue());
 
         $attributeIssuanceDetails = $activityDetails->getExtraData()->getAttributeIssuanceDetails();
-        $this->assertEquals(base64_encode('some-token'), $attributeIssuanceDetails->getToken());
+        $this->assertEquals(Base64::urlEncode('some-token'), $attributeIssuanceDetails->getToken());
         $this->assertEquals(
             $expiryDate->format(DATE_RFC3339),
             $attributeIssuanceDetails->getExpiryDate()->format(DATE_RFC3339)

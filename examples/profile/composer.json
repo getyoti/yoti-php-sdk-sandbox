@@ -3,7 +3,7 @@
   "description": "Yoti PHP SDK Profile Sandbox Example",
   "license": "MIT",
   "require": {
-    "yoti/yoti-php-sdk": "^3.1"
+    "yoti/yoti-php-sdk": "^3.3.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^8.5",
