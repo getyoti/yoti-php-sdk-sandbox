@@ -13,9 +13,12 @@ use Yoti\Sandbox\Test\TestCase;
  */
 class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
 {
-
     private const SOME_DOCUMENT_FIELD_KEY = 'someKey';
     private const SOME_DOCUMENT_FIELD_VALUE = 'someValue';
+    private const SOME_OTHER_DOCUMENT_FIELD_KEY = 'someOtherKey';
+    private const SOME_NESTED_DOCUMENT_FIELD_VALUE = [
+        'someNestedKey' => 'someNestedValue'
+    ];
 
     /**
      * @test
@@ -30,6 +33,7 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
     {
         $result = (new SandboxDocumentTextDataExtractionTaskBuilder())
             ->withDocumentField(self::SOME_DOCUMENT_FIELD_KEY, self::SOME_DOCUMENT_FIELD_VALUE)
+            ->withDocumentField(self::SOME_OTHER_DOCUMENT_FIELD_KEY, self::SOME_NESTED_DOCUMENT_FIELD_VALUE)
             ->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -37,6 +41,7 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
                 'result' => [
                     'document_fields' => [
                         self::SOME_DOCUMENT_FIELD_KEY => self::SOME_DOCUMENT_FIELD_VALUE,
+                        self::SOME_OTHER_DOCUMENT_FIELD_KEY => self::SOME_NESTED_DOCUMENT_FIELD_VALUE,
                     ],
                 ],
             ]),
@@ -57,6 +62,7 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
     {
         $documentFields = [
             self::SOME_DOCUMENT_FIELD_KEY => self::SOME_DOCUMENT_FIELD_VALUE,
+            self::SOME_OTHER_DOCUMENT_FIELD_KEY => self::SOME_NESTED_DOCUMENT_FIELD_VALUE
         ];
 
         $result = (new SandboxDocumentTextDataExtractionTaskBuilder())
@@ -66,9 +72,7 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
         $this->assertJsonStringEqualsJsonString(
             json_encode([
                 'result' => [
-                    'document_fields' => [
-                        self::SOME_DOCUMENT_FIELD_KEY => self::SOME_DOCUMENT_FIELD_VALUE,
-                    ],
+                    'document_fields' => $documentFields,
                 ],
             ]),
             json_encode($result)
