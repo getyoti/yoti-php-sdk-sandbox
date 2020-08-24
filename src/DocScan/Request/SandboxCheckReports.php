@@ -6,6 +6,7 @@ namespace Yoti\Sandbox\DocScan\Request;
 
 use Yoti\DocScan\Constants;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentAuthenticityCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentFaceMatchCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
@@ -23,6 +24,11 @@ class SandboxCheckReports implements \JsonSerializable
      * @var SandboxDocumentAuthenticityCheck[]
      */
     private $documentAuthenticityChecks;
+
+    /**
+     * @var SandboxDocumentComparisonCheck[]
+     */
+    private $documentComparisonChecks;
 
     /**
      * @var SandboxDocumentFaceMatchCheck[]
@@ -47,19 +53,22 @@ class SandboxCheckReports implements \JsonSerializable
      * @param SandboxDocumentFaceMatchCheck[] $documentFaceMatchChecks
      * @param SandboxLivenessCheck[] $livenessChecks
      * @param int|null $asyncReportDelay
+     * @param SandboxDocumentComparisonCheck[] $documentComparisonChecks
      */
     public function __construct(
         array $documentTextDataChecks,
         array $documentAuthenticityChecks,
         array $documentFaceMatchChecks,
         array $livenessChecks,
-        ?int $asyncReportDelay
+        ?int $asyncReportDelay,
+        array $documentComparisonChecks
     ) {
         $this->documentTextDataChecks = $documentTextDataChecks;
         $this->documentAuthenticityChecks = $documentAuthenticityChecks;
         $this->documentFaceMatchChecks = $documentFaceMatchChecks;
         $this->livenessChecks = $livenessChecks;
         $this->asyncReportDelay = $asyncReportDelay;
+        $this->documentComparisonChecks = $documentComparisonChecks;
     }
 
     /**
@@ -71,6 +80,7 @@ class SandboxCheckReports implements \JsonSerializable
             Constants::ID_DOCUMENT_TEXT_DATA_CHECK => $this->documentTextDataChecks,
             Constants::ID_DOCUMENT_AUTHENTICITY => $this->documentAuthenticityChecks,
             Constants::ID_DOCUMENT_FACE_MATCH => $this->documentFaceMatchChecks,
+            Constants::ID_DOCUMENT_COMPARISON => $this->documentComparisonChecks,
             Constants::LIVENESS => $this->livenessChecks,
             'async_report_delay' => $this->asyncReportDelay,
         ]);
