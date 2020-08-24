@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\DocScan\Request;
 
-use Yoti\DocScan\Constants;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentAuthenticityCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentFaceMatchCheck;
@@ -77,11 +76,11 @@ class SandboxCheckReports implements \JsonSerializable
     public function jsonSerialize(): \stdClass
     {
         return (object) Json::withoutNullValues([
-            Constants::ID_DOCUMENT_TEXT_DATA_CHECK => $this->documentTextDataChecks,
-            Constants::ID_DOCUMENT_AUTHENTICITY => $this->documentAuthenticityChecks,
-            Constants::ID_DOCUMENT_FACE_MATCH => $this->documentFaceMatchChecks,
-            Constants::ID_DOCUMENT_COMPARISON => $this->documentComparisonChecks,
-            Constants::LIVENESS => $this->livenessChecks,
+            'ID_DOCUMENT_TEXT_DATA_CHECK' => $this->documentTextDataChecks,
+            'ID_DOCUMENT_AUTHENTICITY' => $this->documentAuthenticityChecks,
+            'ID_DOCUMENT_FACE_MATCH' => $this->documentFaceMatchChecks,
+            'ID_DOCUMENT_COMPARISON' => $this->documentComparisonChecks,
+            'LIVENESS' => $this->livenessChecks,
             'async_report_delay' => $this->asyncReportDelay,
         ]);
     }
