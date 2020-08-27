@@ -6,7 +6,7 @@ namespace Yoti\Sandbox\DocScan\Request\Check;
 
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 
-class SandboxDocumentComparisonCheck extends SandboxCheck implements \JsonSerializable
+class SandboxIdDocumentComparisonCheck extends SandboxCheck implements \JsonSerializable
 {
     /**
      * @var SandboxDocumentFilter|null
