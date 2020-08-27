@@ -6,7 +6,7 @@ namespace Yoti\Sandbox\DocScan\Request\Check;
 
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 
-class SandboxDocumentComparisonCheckBuilder extends SandboxCheckBuilder
+class SandboxIdDocumentComparisonCheckBuilder extends SandboxCheckBuilder
 {
     /**
      * @var SandboxDocumentFilter
@@ -25,11 +25,11 @@ class SandboxDocumentComparisonCheckBuilder extends SandboxCheckBuilder
     }
 
     /**
-     * @return SandboxDocumentComparisonCheck
+     * @return SandboxIdDocumentComparisonCheck
      */
     public function build(): SandboxCheck
     {
         $result = new SandboxCheckResult($this->buildReport());
-        return new SandboxDocumentComparisonCheck($result, $this->secondaryDocumentFilter);
+        return new SandboxIdDocumentComparisonCheck($result, $this->secondaryDocumentFilter);
     }
 }

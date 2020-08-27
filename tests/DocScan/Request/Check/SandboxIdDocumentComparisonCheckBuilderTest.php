@@ -7,12 +7,12 @@ namespace Yoti\Sandbox\Test\DocScan\Request\Check;
 use PHPUnit\Framework\MockObject\MockObject;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdown;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendation;
-use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentComparisonCheck;
-use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentComparisonCheckBuilder;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheckBuilder;
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 use Yoti\Sandbox\Test\TestCase;
 
-class SandboxDocumentComparisonCheckBuilderTest extends TestCase
+class SandboxIdDocumentComparisonCheckBuilderTest extends TestCase
 {
 
     /**
@@ -42,7 +42,7 @@ class SandboxDocumentComparisonCheckBuilderTest extends TestCase
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(SandboxRecommendation::class);
 
-        (new SandboxDocumentComparisonCheckBuilder())->build();
+        (new SandboxIdDocumentComparisonCheckBuilder())->build();
     }
 
     /**
@@ -50,12 +50,12 @@ class SandboxDocumentComparisonCheckBuilderTest extends TestCase
      */
     public function shouldBuildCorrectly(): void
     {
-        $result = (new SandboxDocumentComparisonCheckBuilder())
+        $result = (new SandboxIdDocumentComparisonCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
             ->build();
 
-        $this->assertInstanceOf(SandboxDocumentComparisonCheck::class, $result);
+        $this->assertInstanceOf(SandboxIdDocumentComparisonCheck::class, $result);
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
@@ -83,7 +83,7 @@ class SandboxDocumentComparisonCheckBuilderTest extends TestCase
             $this->breakdownMock
         ];
 
-        $result = (new SandboxDocumentComparisonCheckBuilder())
+        $result = (new SandboxIdDocumentComparisonCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdowns($breakdowns)
             ->build();
@@ -115,12 +115,12 @@ class SandboxDocumentComparisonCheckBuilderTest extends TestCase
             ->method('jsonSerialize')
             ->willReturn((object) ['some' => 'filter']);
 
-        $result = (new SandboxDocumentComparisonCheckBuilder())
+        $result = (new SandboxIdDocumentComparisonCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withSecondaryDocumentFilter($documentFilter)
             ->build();
 
-        $this->assertInstanceOf(SandboxDocumentComparisonCheck::class, $result);
+        $this->assertInstanceOf(SandboxIdDocumentComparisonCheck::class, $result);
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
