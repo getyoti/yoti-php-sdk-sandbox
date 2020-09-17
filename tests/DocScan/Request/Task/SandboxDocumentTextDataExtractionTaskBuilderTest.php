@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\Test\DocScan\Task;
+namespace Yoti\Sandbox\Test\DocScan\Request\Task;
 
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 use Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskBuilder;
@@ -19,6 +19,8 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
     private const SOME_NESTED_DOCUMENT_FIELD_VALUE = [
         'someNestedKey' => 'someNestedValue'
     ];
+    private const SOME_IMAGE_CONTENT_TYPE = 'image/jpeg';
+    private const SOME_IMAGE_CONTENT = 'someImageContent';
 
     /**
      * @test
@@ -105,6 +107,31 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
                     'document_fields' => (object) [],
                 ],
                 'document_filter' => $documentFilter,
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::withDocumentIdPhoto
+     * @covers ::build
+     */
+    public function shouldHaveDocumentIdPhoto(): void
+    {
+        $result = (new SandboxDocumentTextDataExtractionTaskBuilder())
+            ->withDocumentIdPhoto(self::SOME_IMAGE_CONTENT_TYPE, self::SOME_IMAGE_CONTENT)
+            ->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'document_fields' => (object) [],
+                    'document_id_photo' => (object) [
+                        'content_type' => self::SOME_IMAGE_CONTENT_TYPE,
+                        'data' => base64_encode(self::SOME_IMAGE_CONTENT),
+                    ],
+                ],
             ]),
             json_encode($result)
         );
