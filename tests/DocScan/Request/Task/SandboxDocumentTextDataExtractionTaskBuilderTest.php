@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yoti\Sandbox\Test\DocScan\Request\Task;
 
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
+use Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentIdPhoto;
 use Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskBuilder;
 use Yoti\Sandbox\Test\TestCase;
 
@@ -103,9 +104,7 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'result' => [
-                    'document_fields' => (object) [],
-                ],
+                'result' => (object) [],
                 'document_filter' => $documentFilter,
             ]),
             json_encode($result)
@@ -116,6 +115,10 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
      * @test
      * @covers ::withDocumentIdPhoto
      * @covers ::build
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask::jsonSerialize
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskResult::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskResult::jsonSerialize
      */
     public function shouldHaveDocumentIdPhoto(): void
     {
@@ -126,11 +129,10 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
         $this->assertJsonStringEqualsJsonString(
             json_encode([
                 'result' => [
-                    'document_fields' => (object) [],
-                    'document_id_photo' => (object) [
-                        'content_type' => self::SOME_IMAGE_CONTENT_TYPE,
-                        'data' => base64_encode(self::SOME_IMAGE_CONTENT),
-                    ],
+                    'document_id_photo' => new SandboxDocumentIdPhoto(
+                        self::SOME_IMAGE_CONTENT_TYPE,
+                        self::SOME_IMAGE_CONTENT
+                    ),
                 ],
             ]),
             json_encode($result)
