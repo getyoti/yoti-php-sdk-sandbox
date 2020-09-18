@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\DocScan\Request\Task;
 
-use Yoti\Util\Json;
-
 class SandboxDocumentTextDataExtractionTaskResult implements \JsonSerializable
 {
     /**
-     * @var array<string, mixed>
+     * @var array<string, mixed>|null
      */
     private $documentFields;
 
@@ -19,10 +17,10 @@ class SandboxDocumentTextDataExtractionTaskResult implements \JsonSerializable
     private $documentIdPhoto;
 
     /**
-     * @param array<string, mixed> $documentFields
+     * @param array<string, mixed>|null $documentFields
      * @param SandboxDocumentIdPhoto|null $documentIdPhoto
      */
-    public function __construct(array $documentFields, ?SandboxDocumentIdPhoto $documentIdPhoto = null)
+    public function __construct(?array $documentFields, ?SandboxDocumentIdPhoto $documentIdPhoto = null)
     {
         $this->documentFields = $documentFields;
         $this->documentIdPhoto = $documentIdPhoto;
@@ -33,9 +31,16 @@ class SandboxDocumentTextDataExtractionTaskResult implements \JsonSerializable
      */
     public function jsonSerialize(): \stdClass
     {
-        return (object) Json::withoutNullValues([
-            'document_fields' => (object) $this->documentFields,
-            'document_id_photo' => $this->documentIdPhoto,
-        ]);
+        $jsonData = (object) [];
+
+        if ($this->documentFields !== null) {
+            $jsonData->document_fields = (object) $this->documentFields;
+        }
+
+        if ($this->documentIdPhoto !== null) {
+            $jsonData->document_id_photo = $this->documentIdPhoto;
+        }
+
+        return $jsonData;
     }
 }

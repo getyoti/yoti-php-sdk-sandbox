@@ -9,9 +9,9 @@ use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 class SandboxDocumentTextDataExtractionTaskBuilder
 {
     /**
-     * @var array<string, mixed>
+     * @var array<string, mixed>|null
      */
-    private $documentFields = [];
+    private $documentFields;
 
     /**
      * @var SandboxDocumentFilter

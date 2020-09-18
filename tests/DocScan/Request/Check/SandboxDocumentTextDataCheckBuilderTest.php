@@ -72,7 +72,6 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
                             $this->breakdownMock
                         ],
                     ],
-                    'document_fields' => (object) [],
                 ],
             ]),
             json_encode($result)
@@ -206,7 +205,6 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
                         'recommendation' => $this->recommendationMock,
                         'breakdown' => [],
                     ],
-                    'document_fields' => (object) [],
                 ],
                 'document_filter' => $documentFilter
             ]),
