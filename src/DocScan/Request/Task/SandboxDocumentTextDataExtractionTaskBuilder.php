@@ -57,13 +57,13 @@ class SandboxDocumentTextDataExtractionTaskBuilder
 
     /**
      * @param string $contentType
-     * @param string $content
+     * @param string $data
      *
      * @return $this
      */
-    public function withDocumentIdPhoto(string $contentType, string $content): self
+    public function withDocumentIdPhoto(string $contentType, string $data): self
     {
-        $this->documentIdPhoto = new SandboxDocumentIdPhoto($contentType, $content);
+        $this->documentIdPhoto = new SandboxDocumentIdPhoto($contentType, $data);
         return $this;
     }
 
