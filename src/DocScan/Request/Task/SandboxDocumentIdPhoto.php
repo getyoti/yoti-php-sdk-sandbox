@@ -14,16 +14,16 @@ class SandboxDocumentIdPhoto implements \JsonSerializable
     /**
      * @var string
      */
-    private $content;
+    private $data;
 
     /**
      * @param string $contentType
-     * @param string $content
+     * @param string $data
      */
-    public function __construct(string $contentType, string $content)
+    public function __construct(string $contentType, string $data)
     {
         $this->contentType = $contentType;
-        $this->content = $content;
+        $this->data = $data;
     }
 
     /**
@@ -33,7 +33,7 @@ class SandboxDocumentIdPhoto implements \JsonSerializable
     {
         return (object) [
             'content_type' => $this->contentType,
-            'data' => base64_encode($this->content),
+            'data' => base64_encode($this->data),
         ];
     }
 }
