@@ -14,6 +14,12 @@ use Yoti\Sandbox\Test\TestCase;
 
 class SandboxDocumentTextDataCheckBuilderTest extends TestCase
 {
+    private const SOME_DOCUMENT_FIELD_KEY = 'someKey';
+    private const SOME_DOCUMENT_FIELD_VALUE = 'someValue';
+    private const SOME_OTHER_DOCUMENT_FIELD_KEY = 'someOtherKey';
+    private const SOME_NESTED_DOCUMENT_FIELD_VALUE = [
+        'someNestedKey' => 'someNestedValue'
+    ];
 
     /**
      * @var MockObject|SandboxRecommendation
@@ -66,7 +72,6 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
                             $this->breakdownMock
                         ],
                     ],
-                    'document_fields' => (object) [],
                 ],
             ]),
             json_encode($result)
@@ -81,8 +86,8 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
         $result = (new SandboxDocumentTextDataCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
-            ->withDocumentField('someKey', 'someValue')
-            ->withDocumentField('someOtherKey', 'someOtherValue')
+            ->withDocumentField(self::SOME_DOCUMENT_FIELD_KEY, self::SOME_DOCUMENT_FIELD_VALUE)
+            ->withDocumentField(self::SOME_OTHER_DOCUMENT_FIELD_KEY, self::SOME_NESTED_DOCUMENT_FIELD_VALUE)
             ->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -95,8 +100,8 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
                         ],
                     ],
                     'document_fields' => [
-                        'someKey' => 'someValue',
-                        'someOtherKey' => 'someOtherValue'
+                        self::SOME_DOCUMENT_FIELD_KEY => self::SOME_DOCUMENT_FIELD_VALUE,
+                        self::SOME_OTHER_DOCUMENT_FIELD_KEY => self::SOME_NESTED_DOCUMENT_FIELD_VALUE
                     ],
                 ],
             ]),
@@ -110,8 +115,8 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
     public function shouldAllowOverwritingOfAllDocumentFields(): void
     {
         $documentFields = [
-            'someKey' => 'someValue',
-            'someOtherKey' => 'someOtherValue',
+            self::SOME_DOCUMENT_FIELD_KEY => self::SOME_DOCUMENT_FIELD_VALUE,
+            self::SOME_OTHER_DOCUMENT_FIELD_KEY => self::SOME_NESTED_DOCUMENT_FIELD_VALUE
         ];
 
         $result = (new SandboxDocumentTextDataCheckBuilder())
@@ -149,11 +154,15 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
             ->method('jsonSerialize')
             ->willReturn((object) [ 'someBreakdownKey' => 'someBreakdownValue' ]);
 
+        $documentFields = [
+            self::SOME_DOCUMENT_FIELD_KEY => self::SOME_DOCUMENT_FIELD_VALUE,
+            self::SOME_OTHER_DOCUMENT_FIELD_KEY => self::SOME_NESTED_DOCUMENT_FIELD_VALUE
+        ];
+
         $result = (new SandboxDocumentTextDataCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
-            ->withDocumentField('someKey', 'someValue')
-            ->withDocumentField('someOtherKey', 'someOtherValue')
+            ->withDocumentFields($documentFields)
             ->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -165,10 +174,7 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
                             $this->breakdownMock,
                         ],
                     ],
-                    'document_fields' => [
-                        'someKey' => 'someValue',
-                        'someOtherKey' => 'someOtherValue'
-                    ],
+                    'document_fields' => $documentFields,
                 ],
             ]),
             json_encode($result)
@@ -199,7 +205,6 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
                         'recommendation' => $this->recommendationMock,
                         'breakdown' => [],
                     ],
-                    'document_fields' => (object) [],
                 ],
                 'document_filter' => $documentFilter
             ]),

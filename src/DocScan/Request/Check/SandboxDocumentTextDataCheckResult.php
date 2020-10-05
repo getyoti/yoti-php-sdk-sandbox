@@ -10,17 +10,17 @@ class SandboxDocumentTextDataCheckResult extends SandboxCheckResult
 {
 
     /**
-     * @var array<string, mixed>
+     * @var array<string, mixed>|null
      */
     private $documentFields;
 
     /**
      * @param SandboxCheckReport $report
-     * @param array<string, mixed> $documentFields
+     * @param array<string, mixed>|null $documentFields
      */
     public function __construct(
         SandboxCheckReport $report,
-        array $documentFields
+        ?array $documentFields
     ) {
         parent::__construct($report);
         $this->documentFields = $documentFields;
@@ -32,7 +32,11 @@ class SandboxDocumentTextDataCheckResult extends SandboxCheckResult
     public function jsonSerialize(): \stdClass
     {
         $jsonData = parent::jsonSerialize();
-        $jsonData->document_fields = (object) $this->documentFields;
+
+        if ($this->documentFields !== null) {
+            $jsonData->document_fields = (object) $this->documentFields;
+        }
+
         return $jsonData;
     }
 }

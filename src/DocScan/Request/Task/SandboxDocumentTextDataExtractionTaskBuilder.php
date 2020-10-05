@@ -8,16 +8,20 @@ use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 
 class SandboxDocumentTextDataExtractionTaskBuilder
 {
-
     /**
-     * @var array<string, mixed>
+     * @var array<string, mixed>|null
      */
-    private $documentFields = [];
+    private $documentFields;
 
     /**
      * @var SandboxDocumentFilter
      */
     private $documentFilter;
+
+    /**
+     * @var SandboxDocumentIdPhoto
+     */
+    private $documentIdPhoto;
 
     /**
      * @param string $key
@@ -52,11 +56,23 @@ class SandboxDocumentTextDataExtractionTaskBuilder
     }
 
     /**
+     * @param string $contentType
+     * @param string $data
+     *
+     * @return $this
+     */
+    public function withDocumentIdPhoto(string $contentType, string $data): self
+    {
+        $this->documentIdPhoto = new SandboxDocumentIdPhoto($contentType, $data);
+        return $this;
+    }
+
+    /**
      * @return SandboxDocumentTextDataExtractionTask
      */
     public function build(): SandboxDocumentTextDataExtractionTask
     {
-        $result = new SandboxDocumentTextDataExtractionTaskResult($this->documentFields);
+        $result = new SandboxDocumentTextDataExtractionTaskResult($this->documentFields, $this->documentIdPhoto);
         return new SandboxDocumentTextDataExtractionTask($result, $this->documentFilter);
     }
 }

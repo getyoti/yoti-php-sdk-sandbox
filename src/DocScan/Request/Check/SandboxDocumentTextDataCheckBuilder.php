@@ -8,9 +8,9 @@ class SandboxDocumentTextDataCheckBuilder extends SandboxDocumentCheckBuilder
 {
 
     /**
-     * @var array<string, mixed>
+     * @var array<string, mixed>|null
      */
-    private $documentFields = [];
+    private $documentFields;
 
     /**
      * @param string $key

@@ -7,6 +7,7 @@ namespace Yoti\Sandbox\DocScan\Request;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentAuthenticityCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentFaceMatchCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
 
 class SandboxCheckReportsBuilder
@@ -21,6 +22,11 @@ class SandboxCheckReportsBuilder
      * @var SandboxDocumentAuthenticityCheck[]
      */
     private $documentAuthenticityChecks = [];
+
+    /**
+     * @var SandboxIdDocumentComparisonCheck[]
+     */
+    private $idDocumentComparisonChecks = [];
 
     /**
      * @var SandboxDocumentFaceMatchCheck[]
@@ -78,6 +84,16 @@ class SandboxCheckReportsBuilder
     }
 
     /**
+     * @param SandboxIdDocumentComparisonCheck $documentComparisonCheck
+     * @return $this
+     */
+    public function withIdDocumentComparisonCheck(SandboxIdDocumentComparisonCheck $documentComparisonCheck): self
+    {
+        $this->idDocumentComparisonChecks[] = $documentComparisonCheck;
+        return $this;
+    }
+
+    /**
      * @param int $asyncReportDelay
      * @return $this
      */
@@ -97,7 +113,8 @@ class SandboxCheckReportsBuilder
             $this->documentAuthenticityChecks,
             $this->documentFaceMatchChecks,
             $this->livenessChecks,
-            $this->asyncReportDelay
+            $this->asyncReportDelay,
+            $this->idDocumentComparisonChecks
         );
     }
 }
