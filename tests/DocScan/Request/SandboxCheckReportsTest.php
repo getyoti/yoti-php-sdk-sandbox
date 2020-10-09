@@ -103,6 +103,7 @@ class SandboxCheckReportsTest extends TestCase
                 'ID_DOCUMENT_COMPARISON' => [$this->idDocumentComparisonCheckMock],
                 'ID_DOCUMENT_FACE_MATCH' => [$this->documentFaceMatchCheckMock],
                 'LIVENESS' => [$this->livenessCheckMock],
+                'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK' => [],
                 'async_report_delay' => self::SOME_ASYNC_REPORT_DELAY
             ]),
             json_encode($result)

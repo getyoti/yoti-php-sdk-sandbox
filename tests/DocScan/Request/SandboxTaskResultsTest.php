@@ -37,6 +37,7 @@ class SandboxTaskResultsTest extends TestCase
                 'ID_DOCUMENT_TEXT_DATA_EXTRACTION' => [
                     $documentTextExtractionTaskMock,
                 ],
+                'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION' => [],
             ]),
             json_encode($results)
         );

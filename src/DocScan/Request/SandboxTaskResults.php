@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Yoti\Sandbox\DocScan\Request;
 
-use Yoti\DocScan\Constants;
 use Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask;
+use Yoti\Sandbox\DocScan\Request\Task\SandboxSupplementaryDocumentTextDataExtractionTask;
+use Yoti\Util\Json;
 
 class SandboxTaskResults implements \JsonSerializable
 {
@@ -15,11 +16,20 @@ class SandboxTaskResults implements \JsonSerializable
     private $documentTextDataExtractionTasks;
 
     /**
-     * @param SandboxDocumentTextDataExtractionTask[] $documentTextDataExtractionTasks
+     * @var SandboxSupplementaryDocumentTextDataExtractionTask[]|null
      */
-    public function __construct(array $documentTextDataExtractionTasks)
-    {
+    private $supplementaryDocumentTextDataExtractionTasks;
+
+    /**
+     * @param SandboxDocumentTextDataExtractionTask[] $documentTextDataExtractionTasks
+     * @param SandboxSupplementaryDocumentTextDataExtractionTask[] $supplementaryDocumentTextDataExtractionTasks
+     */
+    public function __construct(
+        array $documentTextDataExtractionTasks,
+        ?array $supplementaryDocumentTextDataExtractionTasks
+    ) {
         $this->documentTextDataExtractionTasks = $documentTextDataExtractionTasks;
+        $this->supplementaryDocumentTextDataExtractionTasks = $supplementaryDocumentTextDataExtractionTasks;
     }
 
     /**
@@ -27,8 +37,9 @@ class SandboxTaskResults implements \JsonSerializable
      */
     public function jsonSerialize(): \stdClass
     {
-        return (object) [
-            Constants::ID_DOCUMENT_TEXT_DATA_EXTRACTION => $this->documentTextDataExtractionTasks,
-        ];
+        return (object) Json::withoutNullValues([
+            'ID_DOCUMENT_TEXT_DATA_EXTRACTION' => $this->documentTextDataExtractionTasks,
+            'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION' => $this->supplementaryDocumentTextDataExtractionTasks,
+        ]);
     }
 }
