@@ -9,7 +9,6 @@ use Yoti\Util\Json;
 
 class SandboxDocumentTextDataExtractionTask implements \JsonSerializable
 {
-
     /**
      * @var SandboxDocumentTextDataExtractionTaskResult
      */

@@ -24,6 +24,16 @@ class SandboxDocumentTextDataExtractionTaskBuilder
     private $documentIdPhoto;
 
     /**
+     * @var SandboxTextDataExtractionRecommendation|null
+     */
+    private $recommendation;
+
+    /**
+     * @var string|null
+     */
+    private $detectedCountry;
+
+    /**
      * @param string $key
      * @param mixed $value
      * @return $this
@@ -68,11 +78,38 @@ class SandboxDocumentTextDataExtractionTaskBuilder
     }
 
     /**
+     * @param SandboxTextDataExtractionRecommendation $recommendation
+     *
+     * @return self
+     */
+    public function withRecommendation(SandboxTextDataExtractionRecommendation $recommendation): self
+    {
+        $this->recommendation = $recommendation;
+        return $this;
+    }
+
+    /**
+     * @param string $detectedCountry
+     *
+     * @return $this
+     */
+    public function withDetectedCountry(string $detectedCountry): self
+    {
+        $this->detectedCountry = $detectedCountry;
+        return $this;
+    }
+
+    /**
      * @return SandboxDocumentTextDataExtractionTask
      */
     public function build(): SandboxDocumentTextDataExtractionTask
     {
-        $result = new SandboxDocumentTextDataExtractionTaskResult($this->documentFields, $this->documentIdPhoto);
+        $result = new SandboxDocumentTextDataExtractionTaskResult(
+            $this->documentFields,
+            $this->documentIdPhoto,
+            $this->detectedCountry,
+            $this->recommendation
+        );
         return new SandboxDocumentTextDataExtractionTask($result, $this->documentFilter);
     }
 }

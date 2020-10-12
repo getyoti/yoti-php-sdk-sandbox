@@ -17,13 +17,31 @@ class SandboxDocumentTextDataExtractionTaskResult implements \JsonSerializable
     private $documentIdPhoto;
 
     /**
+     * @var SandboxTextDataExtractionRecommendation|null
+     */
+    private $recommendation;
+
+    /**
+     * @var string|null
+     */
+    private $detectedCountry;
+
+    /**
      * @param array<string, mixed>|null $documentFields
      * @param SandboxDocumentIdPhoto|null $documentIdPhoto
+     * @param string|null $detectedCountry
+     * @param SandboxTextDataExtractionRecommendation|null $recommendation
      */
-    public function __construct(?array $documentFields, ?SandboxDocumentIdPhoto $documentIdPhoto = null)
-    {
+    public function __construct(
+        ?array $documentFields,
+        ?SandboxDocumentIdPhoto $documentIdPhoto = null,
+        ?string $detectedCountry = null,
+        ?SandboxTextDataExtractionRecommendation $recommendation = null
+    ) {
         $this->documentFields = $documentFields;
         $this->documentIdPhoto = $documentIdPhoto;
+        $this->detectedCountry = $detectedCountry;
+        $this->recommendation = $recommendation;
     }
 
     /**
@@ -39,6 +57,14 @@ class SandboxDocumentTextDataExtractionTaskResult implements \JsonSerializable
 
         if ($this->documentIdPhoto !== null) {
             $jsonData->document_id_photo = $this->documentIdPhoto;
+        }
+
+        if ($this->detectedCountry !== null) {
+            $jsonData->detected_country = $this->detectedCountry;
+        }
+
+        if ($this->recommendation !== null) {
+            $jsonData->recommendation = $this->recommendation;
         }
 
         return $jsonData;
