@@ -3,10 +3,9 @@
 namespace Yoti\Sandbox\Test\DocScan\Exception;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Yoti\Sandbox\DocScan\Exception\SandboxDocScanException;
 use Yoti\Sandbox\Test\TestCase;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 class SandboxDocScanExceptionTest extends TestCase
 {
@@ -61,10 +60,13 @@ class SandboxDocScanExceptionTest extends TestCase
      */
     public function shouldIncludeFormattedResponseInMessage($message, $jsonData, $expectedMessage)
     {
+        $body = $this->createMock(StreamInterface::class);
+        $body->method('__toString')->willReturn(json_encode($jsonData));
+
         $responseMock = $this->createMock(ResponseInterface::class);
         $responseMock->method('hasHeader')->willReturn(true);
         $responseMock->method('getHeader')->willReturn(['application/json']);
-        $responseMock->method('getBody')->willReturn(stream_for(json_encode($jsonData)));
+        $responseMock->method('getBody')->willReturn($body);
 
         $docScanException = new SandboxDocScanException($message, $responseMock);
 
