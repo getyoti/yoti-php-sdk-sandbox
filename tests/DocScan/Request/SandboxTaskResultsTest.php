@@ -6,6 +6,7 @@ namespace Yoti\Sandbox\Test\DocScan\Request;
 
 use Yoti\Sandbox\DocScan\Request\SandboxTaskResultsBuilder;
 use Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask;
+use Yoti\Sandbox\DocScan\Request\Task\SandboxSupplementaryDocumentTextDataExtractionTask;
 use Yoti\Sandbox\Test\TestCase;
 
 /**
@@ -19,6 +20,7 @@ class SandboxTaskResultsTest extends TestCase
      * @covers ::__construct
      * @covers ::jsonSerialize
      * @covers \Yoti\Sandbox\DocScan\Request\SandboxTaskResultsBuilder::withDocumentTextDataExtractionTask
+     * @covers \Yoti\Sandbox\DocScan\Request\SandboxTaskResultsBuilder::withSupplementaryDocumentTextDataExtractionTask
      * @covers \Yoti\Sandbox\DocScan\Request\SandboxTaskResultsBuilder::build
      */
     public function shouldBuildCorrectly()
@@ -28,8 +30,16 @@ class SandboxTaskResultsTest extends TestCase
             ->method('jsonSerialize')
             ->willReturn((object) [ 'type' => 'documentTextExtractionTaskMock' ]);
 
+        $supplementaryDocumentTextExtractionTaskMock = $this->createMock(
+            SandboxSupplementaryDocumentTextDataExtractionTask::class
+        );
+        $supplementaryDocumentTextExtractionTaskMock
+            ->method('jsonSerialize')
+            ->willReturn((object) [ 'type' => 'supplementaryDocumentTextExtractionTaskMock' ]);
+
         $results = (new SandboxTaskResultsBuilder())
             ->withDocumentTextDataExtractionTask($documentTextExtractionTaskMock)
+            ->withSupplementaryDocumentTextDataExtractionTask($supplementaryDocumentTextExtractionTaskMock)
             ->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -37,7 +47,9 @@ class SandboxTaskResultsTest extends TestCase
                 'ID_DOCUMENT_TEXT_DATA_EXTRACTION' => [
                     $documentTextExtractionTaskMock,
                 ],
-                'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION' => [],
+                'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION' => [
+                    $supplementaryDocumentTextExtractionTaskMock,
+                ],
             ]),
             json_encode($results)
         );

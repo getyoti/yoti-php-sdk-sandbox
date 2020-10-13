@@ -19,6 +19,16 @@ class SandboxSupplementaryDocumentTextDataExtractionTaskBuilder
     private $documentFilter;
 
     /**
+     * @var SandboxTextDataExtractionRecommendation|null
+     */
+    private $recommendation;
+
+    /**
+     * @var string|null
+     */
+    private $detectedCountry;
+
+    /**
      * @param string $key
      * @param mixed $value
      * @return $this
@@ -51,11 +61,37 @@ class SandboxSupplementaryDocumentTextDataExtractionTaskBuilder
     }
 
     /**
+     * @param SandboxTextDataExtractionRecommendation $recommendation
+     *
+     * @return self
+     */
+    public function withRecommendation(SandboxTextDataExtractionRecommendation $recommendation): self
+    {
+        $this->recommendation = $recommendation;
+        return $this;
+    }
+
+    /**
+     * @param string $detectedCountry
+     *
+     * @return $this
+     */
+    public function withDetectedCountry(string $detectedCountry): self
+    {
+        $this->detectedCountry = $detectedCountry;
+        return $this;
+    }
+
+    /**
      * @return SandboxSupplementaryDocumentTextDataExtractionTask
      */
     public function build(): SandboxSupplementaryDocumentTextDataExtractionTask
     {
-        $result = new SandboxSupplementaryDocumentTextDataExtractionTaskResult($this->documentFields);
+        $result = new SandboxSupplementaryDocumentTextDataExtractionTaskResult(
+            $this->documentFields,
+            $this->detectedCountry,
+            $this->recommendation
+        );
         return new SandboxSupplementaryDocumentTextDataExtractionTask($result, $this->documentFilter);
     }
 }
