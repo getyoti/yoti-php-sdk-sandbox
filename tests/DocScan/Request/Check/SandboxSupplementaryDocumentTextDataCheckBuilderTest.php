@@ -7,15 +7,15 @@ namespace Yoti\Sandbox\Test\DocScan\Request\Check;
 use PHPUnit\Framework\MockObject\MockObject;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdown;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendation;
-use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
-use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheckBuilder;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheckBuilder;
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 use Yoti\Sandbox\Test\TestCase;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheckBuilder
+ * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheckBuilder
  */
-class SandboxDocumentTextDataCheckBuilderTest extends TestCase
+class SandboxSupplementaryDocumentTextDataCheckBuilderTest extends TestCase
 {
     private const SOME_DOCUMENT_FIELD_KEY = 'someKey';
     private const SOME_DOCUMENT_FIELD_VALUE = 'someValue';
@@ -45,13 +45,14 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
 
     /**
      * @test
+     * @covers ::build
      */
     public function shouldThrowExceptionWhenMissingRecommendation(): void
     {
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(SandboxRecommendation::class);
 
-        (new SandboxDocumentTextDataCheckBuilder())->build();
+        (new SandboxSupplementaryDocumentTextDataCheckBuilder())->build();
     }
 
     /**
@@ -62,12 +63,12 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
      */
     public function shouldBuildCorrectly(): void
     {
-        $result = (new SandboxDocumentTextDataCheckBuilder())
+        $result = (new SandboxSupplementaryDocumentTextDataCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
             ->build();
 
-        $this->assertInstanceOf(SandboxDocumentTextDataCheck::class, $result);
+        $this->assertInstanceOf(SandboxSupplementaryDocumentTextDataCheck::class, $result);
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
@@ -90,7 +91,7 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
      */
     public function shouldAllowAddingOfSingleDocumentFields(): void
     {
-        $result = (new SandboxDocumentTextDataCheckBuilder())
+        $result = (new SandboxSupplementaryDocumentTextDataCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
             ->withDocumentField(self::SOME_DOCUMENT_FIELD_KEY, self::SOME_DOCUMENT_FIELD_VALUE)
@@ -127,7 +128,7 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
             self::SOME_OTHER_DOCUMENT_FIELD_KEY => self::SOME_NESTED_DOCUMENT_FIELD_VALUE
         ];
 
-        $result = (new SandboxDocumentTextDataCheckBuilder())
+        $result = (new SandboxSupplementaryDocumentTextDataCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
             ->withDocumentFields($documentFields)
@@ -151,10 +152,10 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
 
     /**
      * @test
-     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck::__construct
-     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck::jsonSerialize
-     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheckResult::__construct
-     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheckResult::jsonSerialize
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck::jsonSerialize
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheckResult::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheckResult::jsonSerialize
      */
     public function shouldSerializeToJsonCorrectly()
     {
@@ -171,7 +172,7 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
             self::SOME_OTHER_DOCUMENT_FIELD_KEY => self::SOME_NESTED_DOCUMENT_FIELD_VALUE
         ];
 
-        $result = (new SandboxDocumentTextDataCheckBuilder())
+        $result = (new SandboxSupplementaryDocumentTextDataCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
             ->withDocumentFields($documentFields)
@@ -204,12 +205,12 @@ class SandboxDocumentTextDataCheckBuilderTest extends TestCase
             ->method('jsonSerialize')
             ->willReturn((object) ['some' => 'filter']);
 
-        $result = (new SandboxDocumentTextDataCheckBuilder())
+        $result = (new SandboxSupplementaryDocumentTextDataCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withDocumentFilter($documentFilter)
             ->build();
 
-        $this->assertInstanceOf(SandboxDocumentTextDataCheck::class, $result);
+        $this->assertInstanceOf(SandboxSupplementaryDocumentTextDataCheck::class, $result);
 
         $this->assertJsonStringEqualsJsonString(
             json_encode([
