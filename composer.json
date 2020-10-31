@@ -9,6 +9,7 @@
   "homepage": "https://yoti.com",
   "license": "MIT",
   "require": {
+    "php": "^7.1 || ^8.0",
     "yoti/yoti-php-sdk": "^3.1"
   },
   "require-dev": {
