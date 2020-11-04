@@ -7,10 +7,10 @@ namespace Yoti\Sandbox\DocScan\Request\Task;
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 use Yoti\Util\Json;
 
-class SandboxDocumentTextDataExtractionTask implements \JsonSerializable
+class SandboxSupplementaryDocumentTextDataExtractionTask implements \JsonSerializable
 {
     /**
-     * @var SandboxDocumentTextDataExtractionTaskResult
+     * @var SandboxSupplementaryDocumentTextDataExtractionTaskResult
      */
     private $result;
 
@@ -20,10 +20,10 @@ class SandboxDocumentTextDataExtractionTask implements \JsonSerializable
     private $documentFilter;
 
     /**
-     * @param SandboxDocumentTextDataExtractionTaskResult $result
+     * @param SandboxSupplementaryDocumentTextDataExtractionTaskResult $result
      */
     public function __construct(
-        SandboxDocumentTextDataExtractionTaskResult $result,
+        SandboxSupplementaryDocumentTextDataExtractionTaskResult $result,
         ?SandboxDocumentFilter $documentFilter
     ) {
         $this->result = $result;

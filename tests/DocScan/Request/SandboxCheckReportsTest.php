@@ -9,12 +9,13 @@ use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentFaceMatchCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck;
 use Yoti\Sandbox\DocScan\Request\SandboxCheckReports;
 use Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder;
 use Yoti\Sandbox\Test\TestCase;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\SandboxCheckReports
+ * @coversDefaultClass \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder
  */
 class SandboxCheckReportsTest extends TestCase
 {
@@ -45,6 +46,11 @@ class SandboxCheckReportsTest extends TestCase
      */
     private $idDocumentComparisonCheckMock;
 
+    /**
+     * @var SandboxSupplementaryDocumentTextDataCheck
+     */
+    private $supplementaryDocumentTextDataCheckMock;
+
     public function setup(): void
     {
         $this->documentTextDataCheckMock = $this->createMock(SandboxDocumentTextDataCheck::class);
@@ -71,19 +77,27 @@ class SandboxCheckReportsTest extends TestCase
         $this->idDocumentComparisonCheckMock
             ->method('jsonSerialize')
             ->willReturn((object) [ 'type' => 'documentComparisonCheck' ]);
+
+        $this->supplementaryDocumentTextDataCheckMock = $this->createMock(
+            SandboxSupplementaryDocumentTextDataCheck::class
+        );
+        $this->supplementaryDocumentTextDataCheckMock
+            ->method('jsonSerialize')
+            ->willReturn((object) [ 'type' => 'supplementaryDocumentTextDataCheckMock' ]);
     }
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::jsonSerialize
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder::withDocumentTextDataCheck
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder::withDocumentAuthenticityCheck
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder::withIdDocumentComparisonCheck
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder::withDocumentFaceMatchCheck
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder::withLivenessCheck
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder::withAsyncReportDelay
-     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder::build
+     * @covers ::withDocumentTextDataCheck
+     * @covers ::withDocumentAuthenticityCheck
+     * @covers ::withIdDocumentComparisonCheck
+     * @covers ::withDocumentFaceMatchCheck
+     * @covers ::withLivenessCheck
+     * @covers ::withAsyncReportDelay
+     * @covers ::withSupplementaryDocumentTextDataCheck
+     * @covers ::build
+     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReports::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReports::jsonSerialize
      */
     public function shouldBuildCorrectly()
     {
@@ -94,6 +108,7 @@ class SandboxCheckReportsTest extends TestCase
             ->withLivenessCheck($this->livenessCheckMock)
             ->withDocumentFaceMatchCheck($this->documentFaceMatchCheckMock)
             ->withAsyncReportDelay(self::SOME_ASYNC_REPORT_DELAY)
+            ->withSupplementaryDocumentTextDataCheck($this->supplementaryDocumentTextDataCheckMock)
             ->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -103,6 +118,7 @@ class SandboxCheckReportsTest extends TestCase
                 'ID_DOCUMENT_COMPARISON' => [$this->idDocumentComparisonCheckMock],
                 'ID_DOCUMENT_FACE_MATCH' => [$this->documentFaceMatchCheckMock],
                 'LIVENESS' => [$this->livenessCheckMock],
+                'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK' => [$this->supplementaryDocumentTextDataCheckMock],
                 'async_report_delay' => self::SOME_ASYNC_REPORT_DELAY
             ]),
             json_encode($result)
@@ -111,8 +127,8 @@ class SandboxCheckReportsTest extends TestCase
 
     /**
      * @test
-     * @covers ::__construct
-     * @covers ::jsonSerialize
+     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReports::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\SandboxCheckReports::jsonSerialize
      */
     public function shouldConstructWithoutOptionalArguments()
     {

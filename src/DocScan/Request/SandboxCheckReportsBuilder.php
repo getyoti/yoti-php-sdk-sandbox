@@ -9,10 +9,10 @@ use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentFaceMatchCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck;
 
 class SandboxCheckReportsBuilder
 {
-
     /**
      * @var SandboxDocumentTextDataCheck[]
      */
@@ -37,6 +37,11 @@ class SandboxCheckReportsBuilder
      * @var SandboxLivenessCheck[]
      */
     private $livenessChecks = [];
+
+    /**
+     * @var SandboxSupplementaryDocumentTextDataCheck[]
+     */
+    private $supplementaryDocumentTextDataChecks = [];
 
     /**
      * @var int
@@ -104,6 +109,17 @@ class SandboxCheckReportsBuilder
     }
 
     /**
+     * @param SandboxSupplementaryDocumentTextDataCheck $supplementaryDocumentTextDataCheck
+     * @return $this
+     */
+    public function withSupplementaryDocumentTextDataCheck(
+        SandboxSupplementaryDocumentTextDataCheck $supplementaryDocumentTextDataCheck
+    ): self {
+        $this->supplementaryDocumentTextDataChecks[] = $supplementaryDocumentTextDataCheck;
+        return $this;
+    }
+
+    /**
      * @return SandboxCheckReports
      */
     public function build(): SandboxCheckReports
@@ -114,7 +130,8 @@ class SandboxCheckReportsBuilder
             $this->documentFaceMatchChecks,
             $this->livenessChecks,
             $this->asyncReportDelay,
-            $this->idDocumentComparisonChecks
+            $this->idDocumentComparisonChecks,
+            $this->supplementaryDocumentTextDataChecks
         );
     }
 }

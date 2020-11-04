@@ -6,7 +6,7 @@ namespace Yoti\Sandbox\DocScan\Request\Task;
 
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 
-class SandboxDocumentTextDataExtractionTaskBuilder
+class SandboxSupplementaryDocumentTextDataExtractionTaskBuilder
 {
     /**
      * @var array<string, mixed>|null
@@ -17,11 +17,6 @@ class SandboxDocumentTextDataExtractionTaskBuilder
      * @var SandboxDocumentFilter
      */
     private $documentFilter;
-
-    /**
-     * @var SandboxDocumentIdPhoto
-     */
-    private $documentIdPhoto;
 
     /**
      * @var SandboxTextDataExtractionRecommendation|null
@@ -66,18 +61,6 @@ class SandboxDocumentTextDataExtractionTaskBuilder
     }
 
     /**
-     * @param string $contentType
-     * @param string $data
-     *
-     * @return $this
-     */
-    public function withDocumentIdPhoto(string $contentType, string $data): self
-    {
-        $this->documentIdPhoto = new SandboxDocumentIdPhoto($contentType, $data);
-        return $this;
-    }
-
-    /**
      * @param SandboxTextDataExtractionRecommendation $recommendation
      *
      * @return self
@@ -100,16 +83,15 @@ class SandboxDocumentTextDataExtractionTaskBuilder
     }
 
     /**
-     * @return SandboxDocumentTextDataExtractionTask
+     * @return SandboxSupplementaryDocumentTextDataExtractionTask
      */
-    public function build(): SandboxDocumentTextDataExtractionTask
+    public function build(): SandboxSupplementaryDocumentTextDataExtractionTask
     {
-        $result = new SandboxDocumentTextDataExtractionTaskResult(
+        $result = new SandboxSupplementaryDocumentTextDataExtractionTaskResult(
             $this->documentFields,
-            $this->documentIdPhoto,
             $this->detectedCountry,
             $this->recommendation
         );
-        return new SandboxDocumentTextDataExtractionTask($result, $this->documentFilter);
+        return new SandboxSupplementaryDocumentTextDataExtractionTask($result, $this->documentFilter);
     }
 }

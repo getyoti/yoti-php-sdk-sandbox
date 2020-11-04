@@ -1,7 +1,7 @@
 {
   "name": "yoti/yoti-php-sdk-sandbox",
   "description": "Yoti PHP SDK Sandbox",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "keywords": [
     "yoti",
     "sdk"
@@ -9,6 +9,7 @@
   "homepage": "https://yoti.com",
   "license": "MIT",
   "require": {
+    "php": "^7.1 || ^8.0",
     "yoti/yoti-php-sdk": "^3.1"
   },
   "require-dev": {

@@ -7,6 +7,7 @@ namespace Yoti\Sandbox\Test\DocScan\Request\Task;
 use Yoti\Sandbox\DocScan\Request\SandboxDocumentFilter;
 use Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentIdPhoto;
 use Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskBuilder;
+use Yoti\Sandbox\DocScan\Request\Task\SandboxTextDataExtractionRecommendation;
 use Yoti\Sandbox\Test\TestCase;
 
 /**
@@ -22,6 +23,7 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
     ];
     private const SOME_IMAGE_CONTENT_TYPE = 'image/jpeg';
     private const SOME_IMAGE_CONTENT = 'someImageContent';
+    private const SOME_COUNTRY = 'someCountry';
 
     /**
      * @test
@@ -133,6 +135,61 @@ class SandboxDocumentTextDataExtractionTaskBuilderTest extends TestCase
                         self::SOME_IMAGE_CONTENT_TYPE,
                         self::SOME_IMAGE_CONTENT
                     ),
+                ],
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::withDetectedCountry
+     * @covers ::build
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask::jsonSerialize
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskResult::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskResult::jsonSerialize
+     */
+    public function shouldHaveDetectedCountry(): void
+    {
+        $result = (new SandboxDocumentTextDataExtractionTaskBuilder())
+            ->withDetectedCountry(self::SOME_COUNTRY)
+            ->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'detected_country' => self::SOME_COUNTRY,
+                ],
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::withRecommendation
+     * @covers ::build
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTask::jsonSerialize
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskResult::__construct
+     * @covers \Yoti\Sandbox\DocScan\Request\Task\SandboxDocumentTextDataExtractionTaskResult::jsonSerialize
+     */
+    public function shouldHaveRecommendation(): void
+    {
+        $someRecommendationMock = $this->createMock(SandboxTextDataExtractionRecommendation::class);
+        $someRecommendationMock
+            ->method('jsonSerialize')
+            ->willReturn((object) ['some' => 'recommendation']);
+
+        $result = (new SandboxDocumentTextDataExtractionTaskBuilder())
+            ->withRecommendation($someRecommendationMock)
+            ->build();
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'recommendation' => $someRecommendationMock,
                 ],
             ]),
             json_encode($result)
