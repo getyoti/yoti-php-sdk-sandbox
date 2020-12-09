@@ -3,11 +3,10 @@ updates:
 - package-ecosystem: composer
   directory: "/"
   schedule:
-    interval: daily
+    interval: monthly
   open-pull-requests-limit: 3
   target-branch: development
   reviewers:
   - echarrod
-  - davidgrayston
   assignees:
-  - davidgrayston
+  - echarrod
