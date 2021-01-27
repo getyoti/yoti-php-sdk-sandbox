@@ -1,6 +1,6 @@
 # Yoti PHP Sandbox SDK
 
-[![Build Status](https://travis-ci.com/getyoti/yoti-php-sdk-sandbox.svg?branch=master)](https://travis-ci.com/getyoti/yoti-php-sdk-sandbox)
+[![Build Status](https://github.com/getyoti/yoti-php-sdk-sandbox/workflows/Unit%20Test/badge.svg?branch=master)](https://github.com/getyoti/yoti-php-sdk-sandbox/actions)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Aphp-sandbox&metric=coverage)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Aphp-sandbox&metric=bugs)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Aphp-sandbox&metric=code_smells)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
