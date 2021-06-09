@@ -10,6 +10,7 @@ use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxThirdPartyIdentityCheck;
 
 class SandboxCheckReportsBuilder
 {
@@ -42,6 +43,11 @@ class SandboxCheckReportsBuilder
      * @var SandboxSupplementaryDocumentTextDataCheck[]
      */
     private $supplementaryDocumentTextDataChecks = [];
+
+    /**
+     * @var SandboxThirdPartyIdentityCheck
+     */
+    private $thirdPartyIdentityCheck;
 
     /**
      * @var int
@@ -99,6 +105,16 @@ class SandboxCheckReportsBuilder
     }
 
     /**
+     * @param SandboxThirdPartyIdentityCheck $thirdPartyIdentityCheck
+     * @return $this
+     */
+    public function withThirdPartyIdentityCheck(SandboxThirdPartyIdentityCheck $thirdPartyIdentityCheck): self
+    {
+        $this->thirdPartyIdentityCheck = $thirdPartyIdentityCheck;
+        return $this;
+    }
+
+    /**
      * @param int $asyncReportDelay
      * @return $this
      */
@@ -131,7 +147,8 @@ class SandboxCheckReportsBuilder
             $this->livenessChecks,
             $this->asyncReportDelay,
             $this->idDocumentComparisonChecks,
-            $this->supplementaryDocumentTextDataChecks
+            $this->supplementaryDocumentTextDataChecks,
+            $this->thirdPartyIdentityCheck
         );
     }
 }

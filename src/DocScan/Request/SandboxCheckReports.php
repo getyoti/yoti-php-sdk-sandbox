@@ -10,6 +10,7 @@ use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxThirdPartyIdentityCheck;
 use Yoti\Util\Json;
 
 class SandboxCheckReports implements \JsonSerializable
@@ -33,6 +34,11 @@ class SandboxCheckReports implements \JsonSerializable
      * @var SandboxDocumentFaceMatchCheck[]
      */
     private $documentFaceMatchChecks;
+
+    /**
+     * @var SandboxThirdPartyIdentityCheck|null
+     */
+    private $thirdPartyIdentityCheck;
 
     /**
      * @var SandboxSupplementaryDocumentTextDataCheck[]|null
@@ -59,6 +65,7 @@ class SandboxCheckReports implements \JsonSerializable
      * @param int|null $asyncReportDelay
      * @param SandboxIdDocumentComparisonCheck[]|null $idDocumentComparisonChecks
      * @param SandboxSupplementaryDocumentTextDataCheck[]|null $supplementaryDocumentTextDataChecks
+     * @param SandboxThirdPartyIdentityCheck|null $thirdPartyIdentityCheck
      */
     public function __construct(
         array $documentTextDataChecks,
@@ -67,7 +74,8 @@ class SandboxCheckReports implements \JsonSerializable
         array $livenessChecks,
         ?int $asyncReportDelay,
         ?array $idDocumentComparisonChecks = null,
-        ?array $supplementaryDocumentTextDataChecks = null
+        ?array $supplementaryDocumentTextDataChecks = null,
+        SandboxThirdPartyIdentityCheck $thirdPartyIdentityCheck = null
     ) {
         $this->documentTextDataChecks = $documentTextDataChecks;
         $this->documentAuthenticityChecks = $documentAuthenticityChecks;
@@ -76,6 +84,7 @@ class SandboxCheckReports implements \JsonSerializable
         $this->asyncReportDelay = $asyncReportDelay;
         $this->idDocumentComparisonChecks = $idDocumentComparisonChecks;
         $this->supplementaryDocumentTextDataChecks = $supplementaryDocumentTextDataChecks;
+        $this->thirdPartyIdentityCheck = $thirdPartyIdentityCheck;
     }
 
     /**
@@ -90,6 +99,7 @@ class SandboxCheckReports implements \JsonSerializable
             'ID_DOCUMENT_COMPARISON' => $this->idDocumentComparisonChecks,
             'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK' => $this->supplementaryDocumentTextDataChecks,
             'LIVENESS' => $this->livenessChecks,
+            'THIRD_PARTY_IDENTITY' => $this->thirdPartyIdentityCheck,
             'async_report_delay' => $this->asyncReportDelay,
         ]);
     }
