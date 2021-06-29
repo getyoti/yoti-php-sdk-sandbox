@@ -10,6 +10,7 @@ use Yoti\Sandbox\DocScan\Request\Check\SandboxDocumentTextDataCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxIdDocumentComparisonCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxSupplementaryDocumentTextDataCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxThirdPartyIdentityCheck;
 use Yoti\Sandbox\DocScan\Request\SandboxCheckReports;
 use Yoti\Sandbox\DocScan\Request\SandboxCheckReportsBuilder;
 use Yoti\Sandbox\Test\TestCase;
@@ -47,6 +48,11 @@ class SandboxCheckReportsTest extends TestCase
     private $idDocumentComparisonCheckMock;
 
     /**
+     * @var SandboxThirdPartyIdentityCheck
+     */
+    private $thirdPartyIdentityCheckMock;
+
+    /**
      * @var SandboxSupplementaryDocumentTextDataCheck
      */
     private $supplementaryDocumentTextDataCheckMock;
@@ -77,6 +83,11 @@ class SandboxCheckReportsTest extends TestCase
         $this->idDocumentComparisonCheckMock
             ->method('jsonSerialize')
             ->willReturn((object) [ 'type' => 'documentComparisonCheck' ]);
+
+        $this->thirdPartyIdentityCheckMock = $this->createMock(SandboxThirdPartyIdentityCheck::class);
+        $this->thirdPartyIdentityCheckMock
+            ->method('jsonSerialize')
+            ->willReturn((object) [ 'type' => 'thirdPartyIdentityCheck' ]);
 
         $this->supplementaryDocumentTextDataCheckMock = $this->createMock(
             SandboxSupplementaryDocumentTextDataCheck::class
@@ -109,6 +120,7 @@ class SandboxCheckReportsTest extends TestCase
             ->withDocumentFaceMatchCheck($this->documentFaceMatchCheckMock)
             ->withAsyncReportDelay(self::SOME_ASYNC_REPORT_DELAY)
             ->withSupplementaryDocumentTextDataCheck($this->supplementaryDocumentTextDataCheckMock)
+            ->withThirdPartyIdentityCheck($this->thirdPartyIdentityCheckMock)
             ->build();
 
         $this->assertJsonStringEqualsJsonString(
@@ -119,6 +131,7 @@ class SandboxCheckReportsTest extends TestCase
                 'ID_DOCUMENT_FACE_MATCH' => [$this->documentFaceMatchCheckMock],
                 'LIVENESS' => [$this->livenessCheckMock],
                 'SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK' => [$this->supplementaryDocumentTextDataCheckMock],
+                'THIRD_PARTY_IDENTITY' => $this->thirdPartyIdentityCheckMock,
                 'async_report_delay' => self::SOME_ASYNC_REPORT_DELAY
             ]),
             json_encode($result)
