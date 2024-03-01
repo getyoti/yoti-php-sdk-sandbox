@@ -2,59 +2,221 @@
 
 declare(strict_types=1);
 
-namespace Yoti\Sandbox\Test\Profile;
+namespace Yoti\Test\Profile;
 
+use GuzzleHttp\Psr7;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
-use Yoti\Http\Payload;
-use Yoti\Sandbox\Profile\Request\TokenRequest;
-use Yoti\Sandbox\Profile\Service;
-use Yoti\Sandbox\Test\TestCase;
-use Yoti\Sandbox\Test\TestData;
+use Yoti\Exception\ActivityDetailsException;
+use Yoti\Profile\ActivityDetails;
+use Yoti\Profile\Service;
+use Yoti\Test\TestCase;
+use Yoti\Test\TestData;
 use Yoti\Util\Config;
 use Yoti\Util\PemFile;
 
 /**
- * @coversDefaultClass \Yoti\Sandbox\Profile\Service
+ * @coversDefaultClass \Yoti\Profile\Service
  */
 class ServiceTest extends TestCase
 {
-    private const SOME_TOKEN = 'some-token';
-
     /**
-     * @covers ::setupSharingProfile
-     * @covers ::__construct
+     * @covers ::getActivityDetails
+     * @covers ::decryptConnectToken
+     * @covers ::checkForReceipt
      */
-    public function testSetupSharingProfile()
+    public function testGetActivityDetails()
     {
-        $mockResponse = $this->createMock(ResponseInterface::class);
-        $mockResponse
-            ->method('getBody')
-            ->willReturn(json_encode([
-                'token' => self::SOME_TOKEN
-            ]));
-        $mockResponse
-            ->method('getStatusCode')
-            ->willReturn(201);
+        $httpClient = $this->createMock(ClientInterface::class);
+        $httpClient->expects($this->exactly(1))
+            ->method('sendRequest')
+            ->with($this->callback(function ($requestMessage) {
+                $expectedPathPattern = sprintf(
+                    '~^%s/profile/%s\?appId=%s&nonce=.*?&timestamp=.*?~',
+                    TestData::CONNECT_BASE_URL,
+                    TestData::YOTI_CONNECT_TOKEN_DECRYPTED,
+                    TestData::SDK_ID
+                );
 
-        $mockHttpClient = $this->createMock(ClientInterface::class);
-        $mockHttpClient->method('sendRequest')->willReturn($mockResponse);
+                $expectedAuthKey = file_get_contents(TestData::PEM_AUTH_KEY);
 
-        $service = new Service(
+                $this->assertEquals('GET', $requestMessage->getMethod());
+                $this->assertMatchesRegularExpression($expectedPathPattern, (string) $requestMessage->getUri());
+                $this->assertEquals($expectedAuthKey, $requestMessage->getHeader('X-Yoti-Auth-Key')[0]);
+                return true;
+            }))
+            ->willReturn($this->createResponse(200, file_get_contents(TestData::RECEIPT_JSON)));
+
+        $profileService = new Service(
             TestData::SDK_ID,
             PemFile::fromFilePath(TestData::PEM_FILE),
             new Config([
-                Config::HTTP_CLIENT => $mockHttpClient,
+                Config::HTTP_CLIENT => $httpClient,
             ])
         );
 
-        $mockTokenRequest = $this->createMock(TokenRequest::class);
-        $mockTokenRequest
-            ->method('getPayload')
-            ->willReturn($this->createMock(Payload::class));
+        $this->assertInstanceOf(
+            ActivityDetails::class,
+            $profileService->getActivityDetails(file_get_contents(TestData::YOTI_CONNECT_TOKEN))
+        );
+    }
 
-        $token = $service->setupSharingProfile($mockTokenRequest);
+    /**
+     * @covers ::__construct
+     */
+    public function testSetSdkHeaders()
+    {
+        $expectedSdkIdentifier = 'Drupal';
+        $expectedSdkVersion = '1.2.3';
 
-        $this->assertEquals(self::SOME_TOKEN, $token);
+        $response = $this->createResponse(200, file_get_contents(TestData::RECEIPT_JSON));
+
+        $httpClient = $this->createMock(ClientInterface::class);
+        $httpClient->expects($this->exactly(1))
+            ->method('sendRequest')
+            ->with($this->callback(function ($requestMessage) use ($expectedSdkIdentifier, $expectedSdkVersion) {
+                $this->assertEquals(
+                    $expectedSdkIdentifier,
+                    $requestMessage->getHeader('X-Yoti-SDK')[0]
+                );
+                $this->assertEquals(
+                    "{$expectedSdkIdentifier}-{$expectedSdkVersion}",
+                    $requestMessage->getHeader('X-Yoti-SDK-Version')[0]
+                );
+                return true;
+            }))
+            ->willReturn($response);
+
+        $profileService = new Service(
+            TestData::SDK_ID,
+            PemFile::fromFilePath(TestData::PEM_FILE),
+            new Config([
+                Config::HTTP_CLIENT => $httpClient,
+                Config::SDK_IDENTIFIER => $expectedSdkIdentifier,
+                Config::SDK_VERSION => $expectedSdkVersion,
+            ])
+        );
+
+        $profileService->getActivityDetails(file_get_contents(TestData::YOTI_CONNECT_TOKEN));
+    }
+
+    /**
+     * @covers ::getActivityDetails
+     *
+     * @dataProvider httpErrorStatusCodeProvider
+     */
+    public function testGetActivityDetailsFailure($statusCode)
+    {
+        $this->expectException(\Yoti\Exception\base\YotiException::class);
+
+        $profileService = $this->createProfileServiceWithResponse($statusCode);
+        $profileService->getActivityDetails(file_get_contents(TestData::YOTI_CONNECT_TOKEN));
+    }
+
+    /**
+     * Test invalid Token
+     *
+     * @covers ::getActivityDetails
+     * @covers ::decryptConnectToken
+     */
+    public function testInvalidConnectToken()
+    {
+        $this->expectException(\Yoti\Exception\ActivityDetailsException::class);
+        $this->expectExceptionMessage('Could not decode one time use token');
+
+        $profileService = new Service(
+            TestData::SDK_ID,
+            PemFile::fromFilePath(TestData::PEM_FILE),
+            new Config()
+        );
+
+        $profileService->getActivityDetails(TestData::INVALID_YOTI_CONNECT_TOKEN);
+    }
+
+
+
+    /**
+     * @covers ::getActivityDetails
+     */
+    public function testSharingOutcomeFailure()
+    {
+        $mes1 = "Sharing activity unsuccessful for 9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl ";
+        $mes2 = "UNKNOWN FRAUD_DETECTED";
+        $this->expectException(\Yoti\Exception\ActivityDetailsException::class);
+        $this->expectExceptionMessage($mes1 . $mes2);
+
+        $json = json_decode(file_get_contents(TestData::RECEIPT_JSON), true);
+        $json['receipt']['sharing_outcome'] = 'FAILURE';
+
+        $profileService = $this->createProfileServiceWithResponse(200, json_encode($json));
+        $profileService->getActivityDetails(file_get_contents(TestData::YOTI_CONNECT_TOKEN));
+    }
+
+    /**
+     * @covers \Yoti\Exception\ActivityDetailsException::getReceiptErrorDetails
+     * @covers \Yoti\Exception\ActivityDetailsException::__construct
+     */
+    public function testReceiptErrorDetailsException()
+    {
+        $json = json_decode(file_get_contents(TestData::RECEIPT_JSON), true);
+        $json['receipt']['sharing_outcome'] = 'FAILURE';
+
+        $profileService = $this->createProfileServiceWithResponse(200, json_encode($json));
+        try {
+            $profileService->getActivityDetails(file_get_contents(TestData::YOTI_CONNECT_TOKEN));
+        } catch (ActivityDetailsException $e) {
+            $this->assertEquals([
+                'receipt_id' => '9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl',
+                'description' => 'UNKNOWN',
+                'error_code' => 'FRAUD_DETECTED',
+            ], json_decode($e->getReceiptErrorDetails(), true));
+        }
+    }
+
+    /**
+     * @covers ::getActivityDetails
+     * @covers ::checkForReceipt
+     */
+    public function testMissingReceipt()
+    {
+        $this->expectException(\Yoti\Exception\ReceiptException::class);
+        $this->expectExceptionMessage('Receipt not found in response');
+
+        $profileService = $this->createProfileServiceWithResponse(200);
+        $profileService->getActivityDetails(file_get_contents(TestData::YOTI_CONNECT_TOKEN));
+    }
+
+    /**
+     * @param int $statusCode
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    private function createResponse($statusCode, $body = '{}')
+    {
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getBody')->willReturn(Psr7\Utils::streamFor($body));
+        $response->method('getStatusCode')->willReturn($statusCode);
+        return $response;
+    }
+
+    /**
+     * @param int $statusCode
+     *
+     * @return \Yoti\Profile\Service
+     */
+    private function createProfileServiceWithResponse($statusCode, $body = '{}')
+    {
+        $httpClient = $this->createMock(ClientInterface::class);
+        $httpClient
+            ->method('sendRequest')
+            ->willReturn($this->createResponse($statusCode, $body));
+
+        return new Service(
+            TestData::SDK_ID,
+            PemFile::fromFilePath(TestData::PEM_FILE),
+            new Config([
+                Config::HTTP_CLIENT => $httpClient,
+            ])
+        );
     }
 }

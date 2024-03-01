@@ -1,19 +1,21 @@
-# Doc Scan Sandbox Example
+# Doc Scan Example
 
-An example of configuring a session response can be found in the [FeatureContext](./features/bootstrap/FeatureContext.php)
+## Requirements
 
-## Configuring the application
+This example requires [Docker](https://docs.docker.com/)
 
-1. Rename the [.env.example](.env.example) file to `.env` and fill in the required configuration values
+## Setup
 
-## Installing dependencies
+* Create your application in the [Yoti Hub](https://hub.yoti.com) (this requires having a Yoti account)
+* Do the steps below inside the [examples/doc-scan](./) folder
+* Put `your-application-pem-file.pem` file inside the [keys](keys) folder, as Docker requires the `.pem` file to reside within the same location where it's run from.
+* Copy `.env.example` to `.env`
+* Open `.env` file and fill in the environment variables `YOTI_SDK_ID`, `YOTI_KEY_FILE_PATH`
+  * Set `YOTI_KEY_FILE_PATH` to `./keys/your-application-pem-file.pem`
+* Install dependencies `docker-compose up composer`
+* Run the `docker-compose up --build web` command
+* Visit [https://localhost:4003](https://localhost:4003)
+* Run the `docker-compose stop` command to stop the containers.
 
-1. `docker-compose up composer`
-
-## Running the test
-
-1. `docker-compose up test`
-
-## Stopping services
-
-1. `docker-compose down`
+* _The [default controller](./app/Http/Controllers/HomeController.php) demonstrates how to create a Doc Scan session_
+* _The [success controller](./app/Http/Controllers/SuccessController.php) demonstrates how to retrieve a Doc Scan session_
