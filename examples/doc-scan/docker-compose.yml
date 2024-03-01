@@ -1,46 +1,25 @@
 version: '3'
 
 services:
-  app:
-    build: https://github.com/getyoti/doc-scan-sandbox-test-app.git#0.2.0
-    env_file:
-        - ./.env
-    environment:
-        - YOTI_KEY_FILE_PATH=/usr/src/keys/privateKey.pem
-        - YOTI_CLIENT_SDK_ID=${YOTI_SANDBOX_CLIENT_SDK_ID}
-        - YOTI_DOC_SCAN_API_URL=${YOTI_DOC_SCAN_API_URL}
-    volumes:
-        - ${YOTI_KEY_FILE_PATH}:/usr/src/keys/privateKey.pem
+  web:
+    build: ../docker
     ports:
-        - "3000:3000"
-    depends_on:
-        - selenium
-
-  selenium:
-    image: selenium/standalone-chrome
-    container_name: selenium
+      - "4003:443"
     volumes:
-      - ./resources:/usr/src/resources
-    ports:
-      - "4444:4444"
+      - ./:/usr/share/nginx/html
+    links:
+      - php
 
-  test:
-    image: php:7-fpm-alpine
-    command: ./vendor/bin/behat --colors
-    env_file:
-      - ./.env
-    environment:
-      - YOTI_KEY_FILE_PATH=/usr/src/keys/privateKey.pem
-      - YOTI_SANDBOX_CLIENT_SDK_ID=${YOTI_SANDBOX_CLIENT_SDK_ID}
+  php:
+    build:
+      context: ../docker
+      dockerfile: php.dockerfile
     volumes:
-      - ./:/var/www/html
-      - ${YOTI_KEY_FILE_PATH}:/usr/src/keys/privateKey.pem
-    depends_on:
-      - app
+      - ./:/usr/share/nginx/html
 
   composer:
     image: composer
     volumes:
-      - ../../:/app
-    working_dir: /app/examples/doc-scan
-    command: update
+      - ../../:/usr/share/yoti-php-sdk
+    working_dir: /usr/share/yoti-php-sdk/examples/doc-scan
+    command: update-local
