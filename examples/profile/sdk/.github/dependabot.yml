@@ -1,0 +1,12 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 3
+  target-branch: development
+  reviewers:
+  - LuborRod
+  assignees:
+  - LuborRod
