@@ -1,7 +1,7 @@
 {
   "name": "yoti/yoti-php-sdk-sandbox",
   "description": "Yoti PHP SDK Sandbox",
-  "version": "1.6.0",
+  "version": "4.2.0",
   "keywords": [
     "yoti",
     "sdk"
