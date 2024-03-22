@@ -8,7 +8,6 @@ use Yoti\Util\Json;
 
 class SandboxResponseConfig implements \JsonSerializable
 {
-
     /**
      * @var SandboxTaskResults|null
      */

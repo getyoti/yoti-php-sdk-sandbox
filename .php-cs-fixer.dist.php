@@ -1,13 +1,13 @@
 <?php
 $finder = PhpCsFixer\Finder::create()
     ->exclude('Protobuf')
-    ->exclude('vendor')
     ->in(__DIR__ . '/src')
     ->in(__DIR__ . '/tests')
-    ->in(__DIR__ . '/examples')
 ;
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+$config
+    ->setRiskyAllowed(true)
     ->setRules([
         'array_syntax' => ['syntax' => 'short'],
         'no_unused_imports' => true,
@@ -24,3 +24,5 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder($finder)
 ;
+
+return $config;

@@ -6,7 +6,6 @@ namespace Yoti\Sandbox\DocScan\Request\Check;
 
 class SandboxThirdPartyIdentityCheckBuilder extends SandboxDocumentCheckBuilder
 {
-
     /**
      * @return SandboxThirdPartyIdentityCheck
      */
