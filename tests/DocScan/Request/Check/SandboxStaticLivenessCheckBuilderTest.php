@@ -8,11 +8,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxBreakdown;
 use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendation;
 use Yoti\Sandbox\DocScan\Request\Check\SandboxLivenessCheck;
-use Yoti\Sandbox\DocScan\Request\Check\SandboxZoomLivenessCheck;
-use Yoti\Sandbox\DocScan\Request\Check\SandboxZoomLivenessCheckBuilder;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxStaticLivenessCheck;
+use Yoti\Sandbox\DocScan\Request\Check\SandboxStaticLivenessCheckBuilder;
 use Yoti\Sandbox\Test\TestCase;
 
-class SandboxZoomLivenessCheckBuilderTest extends TestCase
+class SandboxStaticLivenessCheckBuilderTest extends TestCase
 {
     /**
      * @var MockObject|SandboxRecommendation
@@ -41,7 +41,7 @@ class SandboxZoomLivenessCheckBuilderTest extends TestCase
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(SandboxRecommendation::class);
 
-        (new SandboxZoomLivenessCheckBuilder())->build();
+        (new SandboxStaticLivenessCheckBuilder())->build();
     }
 
     /**
@@ -49,12 +49,12 @@ class SandboxZoomLivenessCheckBuilderTest extends TestCase
      */
     public function shouldBuildCorrectly(): void
     {
-        $result = (new SandboxZoomLivenessCheckBuilder())
+        $result = (new SandboxStaticLivenessCheckBuilder())
             ->withRecommendation($this->recommendationMock)
             ->withBreakdown($this->breakdownMock)
             ->build();
 
-        $this->assertInstanceOf(SandboxZoomLivenessCheck::class, $result);
+        $this->assertInstanceOf(SandboxStaticLivenessCheck::class, $result);
         $this->assertInstanceOf(SandboxLivenessCheck::class, $result);
 
         $this->assertJsonStringEqualsJsonString(
@@ -67,7 +67,7 @@ class SandboxZoomLivenessCheckBuilderTest extends TestCase
                         ],
                     ],
                 ],
-                'liveness_type' => 'ZOOM',
+                'liveness_type' => 'STATIC',
             ]),
             json_encode($result)
         );

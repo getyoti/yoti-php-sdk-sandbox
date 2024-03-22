@@ -14,7 +14,6 @@ use Yoti\Sandbox\Test\TestCase;
  */
 class SandboxTaskResultsTest extends TestCase
 {
-
     /**
      * @test
      * @covers ::__construct

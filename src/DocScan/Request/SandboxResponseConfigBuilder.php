@@ -6,7 +6,6 @@ namespace Yoti\Sandbox\DocScan\Request;
 
 class SandboxResponseConfigBuilder
 {
-
     /**
      * @var SandboxTaskResults
      */

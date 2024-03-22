@@ -1,10 +1,10 @@
 # Yoti PHP Sandbox SDK
 
-[![Build Status](https://travis-ci.com/getyoti/yoti-php-sdk-sandbox.svg?branch=master)](https://travis-ci.com/getyoti/yoti-php-sdk-sandbox)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Aphp-sandbox&metric=coverage)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Aphp-sandbox&metric=bugs)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Aphp-sandbox&metric=code_smells)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Aphp-sandbox&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
+[![Build Status](https://github.com/getyoti/yoti-php-sdk-sandbox/workflows/Unit%20Tests/badge.svg?branch=master)](https://github.com/getyoti/yoti-php-sdk-sandbox/actions)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=getyoti_yoti-php-sdk-sandbox&metric=coverage)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=getyoti_yoti-php-sdk-sandbox&metric=bugs)](https://sonarcloud.io/dashboard?id=getyoti%3Aphp-sandbox)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=getyoti_yoti-php-sdk-sandbox&metric=code_smells)](https://sonarcloud.io/dashboard?id=getyoti_yoti-php-sdk-sandbox)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=getyoti_yoti-php-sdk-sandbox&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=getyoti_yoti-php-sdk-sandbox)
 
 This repository contains the tools you need to test your Yoti integration.
 

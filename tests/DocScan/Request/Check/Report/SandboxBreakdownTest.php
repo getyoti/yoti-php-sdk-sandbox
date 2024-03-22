@@ -13,7 +13,6 @@ use Yoti\Sandbox\Test\TestCase;
  */
 class SandboxBreakdownTest extends TestCase
 {
-
     private const SOME_SUB_CHECK = 'someSubCheck';
     private const SOME_RESULT = 'someResult';
 
