@@ -10,7 +10,6 @@ use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxRecommendation;
 
 abstract class SandboxCheckBuilder
 {
-
     /**
      * @var SandboxRecommendation
      */

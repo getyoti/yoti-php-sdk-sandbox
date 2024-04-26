@@ -14,7 +14,6 @@ use Yoti\Sandbox\Test\TestCase;
 
 class SandboxZoomLivenessCheckBuilderTest extends TestCase
 {
-
     /**
      * @var MockObject|SandboxRecommendation
      */

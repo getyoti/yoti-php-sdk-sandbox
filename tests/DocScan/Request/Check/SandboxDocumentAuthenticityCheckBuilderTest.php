@@ -14,7 +14,6 @@ use Yoti\Sandbox\Test\TestCase;
 
 class SandboxDocumentAuthenticityCheckBuilderTest extends TestCase
 {
-
     /**
      * @var MockObject|SandboxRecommendation
      */

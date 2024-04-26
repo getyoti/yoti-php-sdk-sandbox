@@ -1,7 +1,7 @@
 {
   "name": "yoti/yoti-php-sdk-sandbox",
   "description": "Yoti PHP SDK Sandbox",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "keywords": [
     "yoti",
     "sdk"
@@ -9,17 +9,17 @@
   "homepage": "https://yoti.com",
   "license": "MIT",
   "require": {
-    "php": "^7.1 || ^8.0",
-    "yoti/yoti-php-sdk": "^3.1"
+    "php": "^7.4 || ^8.0 || ^8.1",
+    "yoti/yoti-php-sdk": "^4.2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.5 || ^8.5 || ^9.3",
     "squizlabs/php_codesniffer": "^3.4",
-    "friendsofphp/php-cs-fixer": "^2.15",
     "brainmaestro/composer-git-hooks": "^2.8",
     "phpstan/phpstan-strict-rules": "^0.12.1",
     "phpstan/extension-installer": "^1.0",
-    "symfony/phpunit-bridge": "^5.1"
+    "symfony/phpunit-bridge": "^5.1",
+    "friendsofphp/php-cs-fixer": "^3.54"
   },
   "autoload": {
     "psr-4": {
@@ -38,7 +38,7 @@
     "coverage-html": "phpunit --coverage-html ./coverage/report",
     "lint": [
       "phpcs",
-      "php-cs-fixer fix --config=.php_cs.dist -v --dry-run --using-cache=no --diff-format=udiff --ansi",
+      "php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --using-cache=no",
       "phpstan analyse"
     ],
     "post-install-cmd": "cghooks add --ignore-lock",
@@ -47,6 +47,11 @@
   "extra": {
     "hooks": {
         "pre-commit": "composer test && composer lint"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true
     }
   }
 }

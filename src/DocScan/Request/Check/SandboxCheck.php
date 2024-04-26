@@ -6,7 +6,6 @@ namespace Yoti\Sandbox\DocScan\Request\Check;
 
 class SandboxCheck implements \JsonSerializable
 {
-
     /**
      * @var SandboxCheckResult
      */

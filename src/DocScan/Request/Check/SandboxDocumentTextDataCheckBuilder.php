@@ -6,7 +6,6 @@ namespace Yoti\Sandbox\DocScan\Request\Check;
 
 class SandboxDocumentTextDataCheckBuilder extends SandboxDocumentCheckBuilder
 {
-
     /**
      * @var array<string, mixed>|null
      */

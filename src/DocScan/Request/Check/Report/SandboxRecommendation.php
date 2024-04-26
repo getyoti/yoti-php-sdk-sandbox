@@ -8,7 +8,6 @@ use Yoti\Util\Json;
 
 class SandboxRecommendation implements \JsonSerializable
 {
-
     /**
      * @var string|null
      */

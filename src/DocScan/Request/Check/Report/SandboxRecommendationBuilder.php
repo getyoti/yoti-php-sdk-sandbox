@@ -6,7 +6,6 @@ namespace Yoti\Sandbox\DocScan\Request\Check\Report;
 
 class SandboxRecommendationBuilder
 {
-
     /**
      * @var string
      */

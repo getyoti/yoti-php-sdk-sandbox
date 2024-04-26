@@ -9,7 +9,6 @@ use Yoti\Util\Validation;
 
 class SandboxBreakdown implements \JsonSerializable
 {
-
     /**
      * @var string
      */

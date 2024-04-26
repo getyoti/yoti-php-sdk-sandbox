@@ -12,7 +12,6 @@ use Yoti\Sandbox\Test\TestCase;
  */
 class SandboxDetailTest extends TestCase
 {
-
     private const SOME_NAME = 'someName';
     private const SOME_VALUE = 'someValue';
 

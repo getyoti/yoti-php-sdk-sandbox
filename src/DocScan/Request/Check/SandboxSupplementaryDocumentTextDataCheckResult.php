@@ -8,7 +8,6 @@ use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxCheckReport;
 
 class SandboxSupplementaryDocumentTextDataCheckResult extends SandboxCheckResult
 {
-
     /**
      * @var array<string, mixed>|null
      */

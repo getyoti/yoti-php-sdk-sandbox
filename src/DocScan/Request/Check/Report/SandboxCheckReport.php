@@ -6,7 +6,6 @@ namespace Yoti\Sandbox\DocScan\Request\Check\Report;
 
 class SandboxCheckReport implements \JsonSerializable
 {
-
     /**
      * @var SandboxRecommendation
      */

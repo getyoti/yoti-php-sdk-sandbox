@@ -8,7 +8,6 @@ use Yoti\Sandbox\DocScan\Request\Check\Report\SandboxCheckReport;
 
 class SandboxCheckResult implements \JsonSerializable
 {
-
     /**
      * @var SandboxCheckReport
      */
