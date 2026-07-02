@@ -37,6 +37,6 @@ class SandboxSupplementaryDocumentTextDataCheckBuilder extends SandboxDocumentCh
     public function build(): SandboxCheck
     {
         $result = new SandboxSupplementaryDocumentTextDataCheckResult($this->buildReport(), $this->documentFields);
-        return new SandboxSupplementaryDocumentTextDataCheck($result, $this->documentFilter);
+        return new SandboxSupplementaryDocumentTextDataCheck($result, $this->documentFilter, $this->handledCheckLimit);
     }
 }

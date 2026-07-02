@@ -72,4 +72,44 @@ class SandboxZoomLivenessCheckBuilderTest extends TestCase
             json_encode($result)
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuildWithHandledCheckLimit(): void
+    {
+        $result = (new SandboxZoomLivenessCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->withHandledCheckLimit(5)
+            ->build();
+
+        $this->assertInstanceOf(SandboxZoomLivenessCheck::class, $result);
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'report' => [
+                        'recommendation' => $this->recommendationMock,
+                        'breakdown' => [],
+                    ],
+                ],
+                'liveness_type' => 'ZOOM',
+                'handled_check_limit' => 5,
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldOmitHandledCheckLimitWhenNotSet(): void
+    {
+        $result = (new SandboxZoomLivenessCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->build();
+
+        $serialized = json_encode($result);
+        $this->assertStringNotContainsString('handled_check_limit', $serialized);
+    }
 }

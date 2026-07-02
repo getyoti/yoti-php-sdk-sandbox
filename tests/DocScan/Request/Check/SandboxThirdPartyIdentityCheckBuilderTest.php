@@ -102,4 +102,43 @@ class SandboxThirdPartyIdentityCheckBuilderTest extends TestCase
             json_encode($result)
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuildWithHandledCheckLimit(): void
+    {
+        $result = (new SandboxThirdPartyIdentityCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->withHandledCheckLimit(10)
+            ->build();
+
+        $this->assertInstanceOf(SandboxThirdPartyIdentityCheck::class, $result);
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'report' => [
+                        'recommendation' => $this->recommendationMock,
+                        'breakdown' => [],
+                    ],
+                ],
+                'handled_check_limit' => 10,
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldOmitHandledCheckLimitWhenNotSet(): void
+    {
+        $result = (new SandboxThirdPartyIdentityCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->build();
+
+        $serialized = json_encode($result);
+        $this->assertStringNotContainsString('handled_check_limit', $serialized);
+    }
 }

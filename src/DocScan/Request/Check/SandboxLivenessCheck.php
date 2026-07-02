@@ -14,10 +14,11 @@ class SandboxLivenessCheck extends SandboxCheck
     /**
      * @param SandboxCheckResult $result
      * @param string $livenessType
+     * @param int|null $handledCheckLimit
      */
-    public function __construct(SandboxCheckResult $result, string $livenessType)
+    public function __construct(SandboxCheckResult $result, string $livenessType, ?int $handledCheckLimit = null)
     {
-        parent::__construct($result);
+        parent::__construct($result, $handledCheckLimit);
 
         $this->livenessType = $livenessType;
     }

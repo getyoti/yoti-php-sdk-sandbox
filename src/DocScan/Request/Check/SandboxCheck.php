@@ -12,11 +12,18 @@ class SandboxCheck implements \JsonSerializable
     private $result;
 
     /**
-     * @param SandboxCheckResult $result
+     * @var int|null
      */
-    public function __construct(SandboxCheckResult $result)
+    private $handledCheckLimit;
+
+    /**
+     * @param SandboxCheckResult $result
+     * @param int|null $handledCheckLimit
+     */
+    public function __construct(SandboxCheckResult $result, ?int $handledCheckLimit = null)
     {
         $this->result = $result;
+        $this->handledCheckLimit = $handledCheckLimit;
     }
 
     /**
@@ -24,8 +31,14 @@ class SandboxCheck implements \JsonSerializable
      */
     public function jsonSerialize(): \stdClass
     {
-        return (object) [
+        $data = (object) [
             'result' => $this->result,
         ];
+
+        if (isset($this->handledCheckLimit)) {
+            $data->handled_check_limit = $this->handledCheckLimit;
+        }
+
+        return $data;
     }
 }
