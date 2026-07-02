@@ -12,6 +12,6 @@ class SandboxDocumentFaceMatchCheckBuilder extends SandboxDocumentCheckBuilder
     public function build(): SandboxCheck
     {
         $result = new SandboxCheckResult($this->buildReport());
-        return new SandboxDocumentFaceMatchCheck($result, $this->documentFilter);
+        return new SandboxDocumentFaceMatchCheck($result, $this->documentFilter, $this->handledCheckLimit);
     }
 }

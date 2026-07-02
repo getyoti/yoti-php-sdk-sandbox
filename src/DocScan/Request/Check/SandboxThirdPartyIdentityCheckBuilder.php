@@ -12,6 +12,6 @@ class SandboxThirdPartyIdentityCheckBuilder extends SandboxDocumentCheckBuilder
     public function build(): SandboxCheck
     {
         $result = new SandboxCheckResult($this->buildReport());
-        return new SandboxThirdPartyIdentityCheck($result, $this->documentFilter);
+        return new SandboxThirdPartyIdentityCheck($result, $this->documentFilter, $this->handledCheckLimit);
     }
 }

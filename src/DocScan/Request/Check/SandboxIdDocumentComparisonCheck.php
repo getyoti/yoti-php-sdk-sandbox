@@ -16,10 +16,11 @@ class SandboxIdDocumentComparisonCheck extends SandboxCheck implements \JsonSeri
     /**
      * @param SandboxCheckResult $result
      * @param SandboxDocumentFilter|null $secondaryDocumentFilter
+     * @param int|null $handledCheckLimit
      */
-    public function __construct(SandboxCheckResult $result, ?SandboxDocumentFilter $secondaryDocumentFilter)
+    public function __construct(SandboxCheckResult $result, ?SandboxDocumentFilter $secondaryDocumentFilter, ?int $handledCheckLimit = null)
     {
-        parent::__construct($result);
+        parent::__construct($result, $handledCheckLimit);
 
         $this->secondaryDocumentFilter = $secondaryDocumentFilter;
     }

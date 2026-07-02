@@ -134,4 +134,43 @@ class SandboxIdDocumentComparisonCheckBuilderTest extends TestCase
             json_encode($result)
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuildWithHandledCheckLimit(): void
+    {
+        $result = (new SandboxIdDocumentComparisonCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->withHandledCheckLimit(2)
+            ->build();
+
+        $this->assertInstanceOf(SandboxIdDocumentComparisonCheck::class, $result);
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'report' => [
+                        'recommendation' => $this->recommendationMock,
+                        'breakdown' => [],
+                    ],
+                ],
+                'handled_check_limit' => 2,
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldOmitHandledCheckLimitWhenNotSet(): void
+    {
+        $result = (new SandboxIdDocumentComparisonCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->build();
+
+        $serialized = json_encode($result);
+        $this->assertStringNotContainsString('handled_check_limit', $serialized);
+    }
 }

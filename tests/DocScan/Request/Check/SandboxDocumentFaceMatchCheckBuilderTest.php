@@ -101,4 +101,43 @@ class SandboxDocumentFaceMatchCheckBuilderTest extends TestCase
             json_encode($result)
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuildWithHandledCheckLimit(): void
+    {
+        $result = (new SandboxDocumentFaceMatchCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->withHandledCheckLimit(4)
+            ->build();
+
+        $this->assertInstanceOf(SandboxDocumentFaceMatchCheck::class, $result);
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'report' => [
+                        'recommendation' => $this->recommendationMock,
+                        'breakdown' => [],
+                    ],
+                ],
+                'handled_check_limit' => 4,
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldOmitHandledCheckLimitWhenNotSet(): void
+    {
+        $result = (new SandboxDocumentFaceMatchCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->build();
+
+        $serialized = json_encode($result);
+        $this->assertStringNotContainsString('handled_check_limit', $serialized);
+    }
 }

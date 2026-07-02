@@ -16,10 +16,11 @@ abstract class SandboxDocumentCheck extends SandboxCheck implements \JsonSeriali
     /**
      * @param SandboxCheckResult $result
      * @param SandboxDocumentFilter|null $documentFilter
+     * @param int|null $handledCheckLimit
      */
-    public function __construct(SandboxCheckResult $result, ?SandboxDocumentFilter $documentFilter)
+    public function __construct(SandboxCheckResult $result, ?SandboxDocumentFilter $documentFilter, ?int $handledCheckLimit = null)
     {
-        parent::__construct($result);
+        parent::__construct($result, $handledCheckLimit);
 
         $this->documentFilter = $documentFilter;
     }

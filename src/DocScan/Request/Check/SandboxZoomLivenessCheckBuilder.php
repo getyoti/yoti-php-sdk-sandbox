@@ -12,6 +12,6 @@ class SandboxZoomLivenessCheckBuilder extends SandboxCheckBuilder
     public function build(): SandboxCheck
     {
         $result = new SandboxCheckResult($this->buildReport());
-        return new SandboxZoomLivenessCheck($result);
+        return new SandboxZoomLivenessCheck($result, $this->handledCheckLimit);
     }
 }

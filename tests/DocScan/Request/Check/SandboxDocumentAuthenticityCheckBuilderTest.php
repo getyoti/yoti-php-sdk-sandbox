@@ -134,4 +134,43 @@ class SandboxDocumentAuthenticityCheckBuilderTest extends TestCase
             json_encode($result)
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuildWithHandledCheckLimit(): void
+    {
+        $result = (new SandboxDocumentAuthenticityCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->withHandledCheckLimit(3)
+            ->build();
+
+        $this->assertInstanceOf(SandboxDocumentAuthenticityCheck::class, $result);
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode([
+                'result' => [
+                    'report' => [
+                        'recommendation' => $this->recommendationMock,
+                        'breakdown' => [],
+                    ],
+                ],
+                'handled_check_limit' => 3,
+            ]),
+            json_encode($result)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldOmitHandledCheckLimitWhenNotSet(): void
+    {
+        $result = (new SandboxDocumentAuthenticityCheckBuilder())
+            ->withRecommendation($this->recommendationMock)
+            ->build();
+
+        $serialized = json_encode($result);
+        $this->assertStringNotContainsString('handled_check_limit', $serialized);
+    }
 }

@@ -10,9 +10,10 @@ class SandboxZoomLivenessCheck extends SandboxLivenessCheck
 
     /**
      * @param SandboxCheckResult $result
+     * @param int|null $handledCheckLimit
      */
-    public function __construct(SandboxCheckResult $result)
+    public function __construct(SandboxCheckResult $result, ?int $handledCheckLimit = null)
     {
-        parent::__construct($result, self::ZOOM);
+        parent::__construct($result, self::ZOOM, $handledCheckLimit);
     }
 }

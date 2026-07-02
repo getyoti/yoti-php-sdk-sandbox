@@ -30,6 +30,6 @@ class SandboxIdDocumentComparisonCheckBuilder extends SandboxCheckBuilder
     public function build(): SandboxCheck
     {
         $result = new SandboxCheckResult($this->buildReport());
-        return new SandboxIdDocumentComparisonCheck($result, $this->secondaryDocumentFilter);
+        return new SandboxIdDocumentComparisonCheck($result, $this->secondaryDocumentFilter, $this->handledCheckLimit);
     }
 }

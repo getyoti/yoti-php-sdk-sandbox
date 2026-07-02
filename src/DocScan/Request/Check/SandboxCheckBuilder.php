@@ -21,6 +21,11 @@ abstract class SandboxCheckBuilder
     protected $breakdownResponse = [];
 
     /**
+     * @var int|null
+     */
+    protected $handledCheckLimit;
+
+    /**
      * @param SandboxRecommendation $recommendationResponse
      * @return $this
      */
@@ -47,6 +52,16 @@ abstract class SandboxCheckBuilder
     public function withBreakdowns(array $breakdowns): self
     {
         $this->breakdownResponse = $breakdowns;
+        return $this;
+    }
+
+    /**
+     * @param int $handledCheckLimit
+     * @return $this
+     */
+    public function withHandledCheckLimit(int $handledCheckLimit): self
+    {
+        $this->handledCheckLimit = $handledCheckLimit;
         return $this;
     }
 
